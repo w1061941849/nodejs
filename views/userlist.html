@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html >
+<head> 
+<% include commonHead.html %> 
+<title>团队大厅</title>  
+<style>  
+.categorys{
+	display: none;
+}
+header #userlist{
+	color:#e8594b;
+}
+#categorysMenua:hover .categorys{
+	display: block !important; 
+	top:0px;
+}
+.categorys,.categorys>li>ul {  
+	 height: auto !important;
+}
+.fliters{
+	background-color: white;
+	margin:20px 0;
+	border-radius: 4px;
+	padding:0 20px;
+}
+.fliter{
+	border-bottom: 1px solid #e0e0e0;
+	padding:14px;
+}
+.fliter span{
+	font-size: 14px;
+	font-weight: 800;
+}
+.fliter ul>li{
+	display: inline-block; 
+	padding:0 10px;
+} 
+.fliter ul>li>a{
+	color:#999999;
+	font-size: 14px;display: inline-block;
+	cursor: pointer;
+} 
+.fliter  .active {
+	color:#e8594b;
+}
+.box-list{
+	background-color: white;
+	border-radius: 8px;
+    border: 1px solid rgba(0,0,0,.14);
+    box-shadow: 0 3px 8px -6px rgba(0,0,0,.1); 
+	
+}
+.box-list>.card-box{
+	padding:20px;
+	border-bottom: 1px solid #e0e0e0;
+	position: relative;
+	vertical-align: top;
+}
+.box-list>.card-box .content{
+	display: inline-block;
+	vertical-align: top;
+	padding:0 20px;
+}
+
+.box-list>.card-box .content>.name{ 
+	font-weight: 800;
+	font-size: 18px;
+}
+.box-list>.card-box .span1{
+	font-size: 14px;
+	color:#999999;
+}
+.box-list>.card-box:hover{
+	box-shadow: 0 0 38px rgba(0,0,0,.08) inset;  
+    -webkit-transition: all .15s ease;
+    transition: all .15s ease;
+}
+</style>  
+</head>
+<body style="overflow-X:hidden; background:#f5f5f5" >   
+<% include header.html %> 
+<div class="w">
+	<div class="fliters  ">
+		<div class="fliter fliter1">
+			<span>技能标签：</span>
+			<ul>
+				<li><a   data-value="">不限</a></li>
+				<% for(var i in results['list25']['data']){%>
+					<li><a   data-value="<%= results['list25']['data'][i]['title']%>"><%= results['list25']['data'][i]['title']%></a></li>
+				<%}%>
+				
+			</ul>
+		</div>
+		<div class="fliter fliter2">
+			<span>资质认证：</span>
+			<ul>
+				<li><a id="fliter2_" data-value="">不限</a></li>
+				<li><a id="fliter2_1" data-value="1" >个人认证</a></li>
+				<li><a id="fliter2_2" data-value="2">企业认证</a></li>
+				<li><a id="fliter2_4" data-value="4">交易认证</a></li>
+			</ul>
+		</div> 
+		<div class="fliter fliter3" style="border:0px;">
+			<span>行业分类：</span>
+			<ul>
+				<% if( results['parentCategory'] && results['hasSonCategory']){%>
+					<li><a id="fliter3_<%=results['activeCid']%>" class="active" data-value="<%= results['activeCid']%>">不限</a></li> 
+					<% for(var i in results['categorylist']['data']){%>	 
+						<%if( results['categorylist']['data'][i]['id']== results['activeCid']){%>   
+							<%for(var j in results['categorylist']['data']){%>
+								<%if(results['categorylist']['data'][j]['parentid']==results['categorylist']['data'][i]['id']  && results['categorylist']['data'][j]['parentid']!=results['categorylist']['data'][j]['id']){%> 
+									<li><a   id="fliter3_<%=results['categorylist']['data'][j]['id']%>" data-value="<%=results['categorylist']['data'][j]['id']%>"><%=results['categorylist']['data'][j]['name']%></a></li>
+								<%}%>
+							<%}%>
+						<%}%>
+					<%}%> 
+				<%} else if( results['parentCategory'] && !results['hasSonCategory']){%> 
+					<li><a id="fliter3_<%=results['parentCategory']%>"  data-value="<%= results['parentCategory']%>">不限</a></li> 
+					<% for(var i in results['categorylist']['data']){%>	 
+						<%if( results['categorylist']['data'][i]['id']== results['activeCid']){%>   
+							<%for(var j in results['categorylist']['data']){%>
+								<%if(results['categorylist']['data'][j]['parentid']==results['categorylist']['data'][i]['parentid']  && results['categorylist']['data'][j]['parentid']!=results['categorylist']['data'][j]['id']){%> 
+									<li><a   id="fliter3_<%=results['categorylist']['data'][j]['id']%>" data-value="<%=results['categorylist']['data'][j]['id']%>"><%=results['categorylist']['data'][j]['name']%></a></li>
+								<%}%>
+							<%}%>
+						<%}%>
+					<%}%>  
+				<%} else if( !results['activeCid']){%>
+					<% for(var i in results['categorylist']['data']){%>	   
+						<%if(results['categorylist']['data'][i]['id']==results['categorylist']['data'][i]['parentid']){%> 
+							<li><a   id="fliter3_<%=results['categorylist']['data'][i]['id']%>" data-value="<%=results['categorylist']['data'][i]['id']%>"><%=results['categorylist']['data'][i]['name']%></a></li>
+						<%}%> 
+					<%}%> 
+				<%} else if( !results['parentCategory'] && results['hasSonCategory']){%> 
+					<li><a id="fliter3_"  class="active"  data-value="">不限</a></li> 
+					<% for(var i in results['categorylist']['data']){%>	 
+						<%if( results['categorylist']['data'][i]['id']== results['activeCid']){%>   
+							<%for(var j in results['categorylist']['data']){%>
+								<%if(results['categorylist']['data'][j]['parentid']==results['categorylist']['data'][i]['id']  && results['categorylist']['data'][j]['parentid']!=results['categorylist']['data'][j]['id']){%> 
+									<li><a   id="fliter3_<%=results['categorylist']['data'][j]['id']%>" data-value="<%=results['categorylist']['data'][j]['id']%>"><%=results['categorylist']['data'][j]['name']%></a></li>
+								<%}%>
+							<%}%>
+						<%}%>
+					<%}%>  
+				<%}%>   
+			</ul>
+		</div> 
+	</div>   
+</div>
+<div class="w">
+	<div class="box-list"  data-hasnext="<%= results['has_next']%>"  data-hasprev="<%= results['has_prev']%>" data-nextnum="<%= results['next_num']%>" data-page="<%= results['page']%>" data-pages="<%= results['pages']%>" data-perpage="<%= results['per_page']%>"  data-prevnum="<%= results['prev_num']%>"> 
+		<%for( var i in results['data']){%>
+			<div class="card-box" >   
+		 		<img style="height:100px;width:100px;background-color:red;"   src="<%= results['data'][i]['imageLarge'] %>">
+		 		<div class="content">
+		 			<a class="name"   href="/userDetail?userid=<%= results['data'][i]['id']%>"><%= decodeURI(results['data'][i]['nickname']) %></a>
+		 			<%if(results['data'][i]['authenticationType'] & 1) {%>
+                        <div class="vip1" title="个人"  style="width:23px;height:23px;position:relative;top:8px;display:inline-block;"></div>
+                       
+		 			<%}else if(results['data'][i]['authenticationType'] & 2){%>
+		 				<div class="vip2" title="企业" style="width:23px;height:23px;position:relative;top:8px;display:inline-block;"></div>
+		 			
+		 			<%}else if(results['data'][i]['authenticationType'] & 5 || results['data'][i]['authenticationType'] & 6){%>
+		 				<div class="vip3" title="交易" style="width:23px;height:23px;position:relative;top:8px;display:inline-block;"></div>
+		 			<%}%>
+		 			</br>
+		 			<span class="span1"><%= (decodeURI(results['data'][i]['nickname']) ? decodeURI(results['data'][i]['nickname']) : "未填写") %></span></br></br>
+		 			<span style="width:400px;display:inline-block">联系方式：
+			 			
+			 			<%if(results['data'][i]['phone']){%>
+			 				<i class="icon-phone"  title="<%= results['data'][i]['phone']%>" style="color:#98d859;margin-right:20px;"> </i> 
+			 			<%}%>
+			 			<%if(results['data'][i]['email']){%>
+			 				<i class=" icon-envelope-alt"  title="<%= results['data'][i]['email']%>" style="color:#46b8da;margin-right:20px;"> </i> 
+			 			<%}%>
+			 			<%if(results['data'][i]['location']){%>
+			 				<i class=" icon-map-marker"  title="<%= results['data'][i]['location']%>" style="color:#fca75b;margin-right:20px;"> </i> 
+			 			<%}%>
+			 			
+			 		</span>
+			 		<span>认证类型：</span> 
+			 		<%if(results['data'][i]['authenticationType'] & 1){%>
+			 			<span  class="span1">个人认证</span>
+			 		<%}if(results['data'][i]['authenticationType'] & 2){%>
+			 			<span  class="span1">企业认证</span>
+			 		<%}if(results['data'][i]['authenticationType'] & 4){%>
+			 			<span  class="span1">交易认证</span>
+			 		<%} else{%>
+			 			<span  class="span1">未认证</span>
+			 		<%}%>
+			 	</div> 
+		 		<div> 
+				 	<span style="font-weight:800">技能标签：</span> 
+				 	<p class="span1" style="display:inline-block">
+
+				 		<% if( results['data'][i]['categorys']['data'].length>0){%>
+							<% for(var j in results['data'][i]['categorys']['data']){%>
+								<%= results['data'][i]['categorys']['data'][j]['name']%>
+							<%}%>
+				 		<%}else{%>
+							未添加
+				 		<%}%>
+						
+				 	</p>
+				</div>
+				<a class="btn" href="/userDetail?userid=<%= results['data'][i]['id'] %>" style="border:0px;right:40px;top:50px;position:absolute"> 更多详情 </a>
+			</div> 
+			 		
+
+		<%}%>
+
+
+		<!-- 
+		<div class="card-box" >   
+		 	<img style="height:100px;width:100px;background-color:red;">
+		 	<div class="content">
+		 		<span class="name">name</span></br>
+		 		<span class="span1">location</span></br></br>
+		 		<span style="width:400px;display:inline-block">联系方式：
+		 			<i class=" icon-envelope-alt" style="color:#98d859"> </i> 
+		 			<span class="span1">gongjun@qq.com</span>
+		 		</span>
+		 		<span>认证类型：</span> 
+		 	</div> 
+			 <div> 
+			 	<span style="font-weight:800">技能标签：</span> 
+			 	<p class="span1" style="display:inline-block">aaaa</p>
+			 </div>
+			<a class="btn" href="/projectDetail" style="border:0px;right:40px;top:50px;position:absolute"> 更多详情 </a>
+		</div>  -->
+	</div> 
+	<div id="turnPage"></div>
+</div>
+<% include footer.html %>
+<% include commonScript.html %> 
+<script   type="text/javascript"> 
+// //http://10.0.1.122/trade/teamhall.html?page=1&keyword=&kind=&authentype=0&orderby=0&desc=0&li1_color=0&li2_color=0&li3_color=0&cid=0&parkind=2 
+$(function(){
+	$('.drop-meanu a').each(function(){ 
+		var href=$(this).attr('href').replace("projectlist","userlist")
+		$(this).attr("href",href)
+	});
+	 
+	getRequest()['tag'] ?  $('.fliter1 a[data-value='+getRequest()['tag'] +']').addClass('active')  : $('.fliter1 li:first-child a').addClass('active')   
+	 console.log($('.fliter1 a[data-value='+getRequest()['tag']+']'))
+	$('#fliter2_'+(getUrlParameter('authentype') ? getUrlParameter('authentype') : "")).addClass('active');
+	$('#fliter3_'+(getUrlParameter('cid') ? getUrlParameter('cid') : "")).addClass('active');
+
+	console.log()
+	var turnPageData={
+		has_next: $('.box-list').attr('data-hasnext'),
+		has_prev: $('.box-list').attr('data-hasprev'),
+		next_num: $('.box-list').attr('data-nextnum'),
+		page: $('.box-list').attr('data-page'),
+		pages: $('.box-list').attr('data-pages'),
+		per_page: $('.box-list').attr('data-perpage'),
+		prev_num: $('.box-list').attr('data-prevnum'), 
+	}
+	$('#turnPage').myUtils('turnPage',turnPageData,changePage) 
+});
+//翻页
+function changePage(){ 
+	var url=location.search.toString();
+	url='/userlist/'+$(this).attr('data-pageid')+url; 
+	location =url 
+	
+}  
+//技能标签筛选
+$('.fliter1>ul a').click(function(){  
+	var tag=$(this).attr("data-value");
+	var url=location.search.toString();
+	if(tag){ 
+		url=replaceParamVal(url,'tag',tag)  
+		url='/userlist/1'+url; 
+	}else{  
+		url='/userlist/1'+removeParameter(url,'tag');
+	} 
+	location = url 
+}) 
+//状态筛选
+$('.fliter2>ul a').click(function(){ 
+	var authentype=$(this).attr("data-value"); 
+	var url=location.search.toString(); 
+	location = url 
+	if(authentype){ 
+		url=replaceParamVal(url,'authentype',authentype) 
+		url='/userlist/1'+url;
+		location = url 
+	}else{ 
+		url='/userlist/1'+removeParameter(url,'authentype');
+		location = url  
+	} 
+})
+//行业筛选
+$('.fliter3>ul a').click(function(){  
+	var cid=$(this).attr("data-value");
+	var url=location.search.toString();
+	if(cid){ 
+		url=replaceParamVal(url,'cid',cid)  
+		url='/userlist/1'+url; 
+	}else{  
+		url='/userlist/1'+removeParameter(url,'cid');
+	} 
+	location = url
+}) 
+//搜索
+$('.search a').click(function(){
+	var keyword=$('.search input').val();
+	console.log(keyword);
+	var url=location.search.toString();
+	url=replaceParamVal(url,'keyword',keyword)  
+	url='/userlist/1'+url;
+	location = url 
+}) 
+
+
+function getRequest() {   
+   var url = window.location.search; //获取url中"?"符后的字串   
+   var theRequest = new Object();   
+   if (url.indexOf("?") != -1) {   
+      var str = url.substr(1);   
+      strs = str.split("&");   
+      for(var i = 0; i < strs.length; i ++) {   
+          //就是这句的问题
+         theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]); 
+         //之前用了unescape()
+         //才会出现乱码  
+      }   
+   }   
+   return theRequest;   
+}
+</script> 
+</body>
+
+</html>

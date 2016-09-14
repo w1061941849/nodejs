@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html >
+<head> 
+<% include commonHead.html %>
+<title>行业分类</title> 
+<style>  
+.top{
+	padding-bottom:20px;
+	border-bottom:2px solid #e0e0e0;
+}
+.top>span{
+	font-size:18px;
+	font-weight:800;
+	color:#666;
+}
+.top>.btn{
+	background-color:#ec6941;
+	color:white;
+	float:right;
+}  
+.content .btn { 
+	border:1px solid #e8594b;
+	color:white;
+	background-color:#e8594b ; 
+	width:160px;
+	display:block;
+	margin:0 auto;
+}  
+  
+.myDomain>li{
+	padding:10px 0;
+	border-bottom: 1px dashed #e0e0e0;
+
+}
+.selectedCatalog{
+	background-color:#e8594b;
+	border-radius: 4px;
+	height: 40px; 
+
+}
+.selectedCatalog>ul{
+	display: inline-block;
+}
+.selectedCatalog>ul>li{
+	border:1px solid white;
+	border-radius: 2px;
+	display: inline-block;
+	margin:0 4px;
+	color:white;
+	padding:2px;
+}
+.catalog{
+	position: relative; 
+
+}
+.catalog>ul{    
+	width:200px;
+	background-color: #ecf0f5;  
+	min-height: 400px;
+} 
+
+.catalog>ul>li{   
+	width: 100%;  
+}
+.catalog>ul>li>span{   
+	display: block;
+	padding:10px; 
+	width:200px;
+	text-align: center;
+	
+}
+.catalog ul>li>ul{
+	width:100%;
+	display: none;
+	width:-moz-calc(100% - 200px);
+	width:-webkit-calc(100% - 200px);
+	width: calc(100% - 200px);
+}
+.catalog ul>li:hover ul{
+	display: block; 
+}
+.catalog ul>li:hover >span{
+	color: #e8594b;
+	background-color: white;
+}
+.catalog ul>li>ul{
+	position: absolute;
+	margin-left:200px;
+	top:0px;  
+	min-height: 400px;
+}
+.catalog ul>li>ul>li{
+	padding:8px;
+	border-bottom: 1px dashed #e0e0e0;
+	margin-left:20px; 
+}.catalog ul>li>ul>li>span{
+	color:#e8594b;
+	display: inline-block;
+	text-align: right;
+	width:120px;
+	margin-right: 10px;
+}
+.catalog ul>li>ul>li>a{
+	color:#999999;
+	margin:0 10px; 
+}
+.catalog ul>li>ul>li>a:hover{
+	color:#e8594b;
+}
+.input-group-addon{
+	width:130px !important;
+}
+.myDomain>li span:first-child{
+	background-color: #fadedb;
+    min-width: 100px;
+    text-align: center; 
+    color: #e8594b;
+    border-radius: 4px; 
+    padding:0 4px;
+    margin-bottom: 8px;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+</style>  
+</head>
+<body >
+<% include header.html %>
+<div class="location">
+	<div class="w">
+		<span>当前位置：</span><a href="/">首页 ></a><a>用户中心 ></a><a href="/basicInfo">资料完善 ></a><a href="/domain">行业分类</a>
+	</div>
+</div>
+<div class="w" > 
+	<% include nav.html %>
+     
+	<div  class="content">   
+		<div class="top">
+			<span>行业分类</span> 
+		</div>
+		<ul class="myDomain"> 
+		</ul>
+		</br>
+		</br> 
+		<div class="selectedCatalog">
+			<span style="width:200px;display:inline-block;text-align:right;line-height:40px;color:white;">您选择了：</span>
+			<ul style="display:inline-block">
+			 
+			</ul>
+		</div>  
+		<div class="catalog">
+			<ul > 
+			</ul> 
+		</div> 
+		</br> 
+		<button class="btn" style="margin: 0 auto;display:block"   onclick="addDomain()">确认</button>
+		</br> 
+	</div>
+		 
+</div>   
+<% include commonScript.html %> 
+<script type="text/javascript" src="../../js/underscore.min.js"></script>   
+<script   type="text/javascript">  
+$(function () {
+	$('#userInformation_5').addClass("active"); 
+	var data=getCategorylist();
+	var str=""
+	for(var i in data['data']){
+	 	if(data['data'][i]['parentid']==data['data'][i]['id']  ){
+	 		str+='<li class="catalog-li"><span>'+data['data'][i]['name']+'  </span><ul>';
+	 			for(var j in data['data']){
+	 				if(data['data'][j]['parentid']==data['data'][i]['id']  && data['data'][j]['id']!=data['data'][i]['id']){
+	 					str+='<li><span>'+data['data'][j]['name']+'</span>';
+	 							for(var k in data['data']){
+	 								if(data['data'][k]['parentid']==data['data'][j]['id']  && data['data'][k]['id']!=data['data'][j]['id'])
+	 								str+='<a  data-id="'+data['data'][k]['id']+'" onclick="addCatelog(this)">'+data['data'][k]['name']+'</a>'; 
+	 							}  
+							'</li>'; 
+	 				}  
+	 			}
+	 		str+='</ul></li>'
+	 	} 
+	} 
+	$('.catalog ul').append(str); 
+	domain();
+	 
+});
+//向上找二级和一级父级
+function  findParents(data,id){
+	var lev2=_.where(data,{"id":id})
+	console.log(lev2)
+	var lev1=_.where(data,{"id":lev2[0]['parentid']})
+	console.log(lev2)
+	console.log(lev1)
+	var result={
+		"lev1":lev1,
+		"lev2":lev2 
+	}
+	return result; 
+}
+//个人category
+function getUserCategorylist(){
+	var temp=""
+	$.ajax({
+			type: "get",
+			async: false,
+			url: "/usercategorys", 
+			contentType:"application/json",  
+			dataType:'json',
+			success: function(data){  
+				 temp=data;
+			},
+			error: function(){
+				alert('fail');
+			} 
+		});
+	return temp;
+
+}
+function getCategorylist(){
+	var temp=""
+	$.ajax({
+			type: "get",
+			async: false,
+			url: "/categorylist", 
+			contentType:"application/json",  
+			dataType:'json',
+			success: function(data){  
+				 temp=data;
+			},
+			error: function(){
+				alert('fail');
+			} 
+		});
+	return temp;
+
+}
+//显示所属领域
+function domain(){
+	var data=getCategorylist();
+	//显示所属领域 
+	var usercategorys= getUserCategorylist(); 
+	var arr=_.groupBy(usercategorys['data'],'parentid');
+	var tempArr=_.values(arr) 
+	console.log(tempArr) 
+	var str="";
+	for(var i in tempArr){
+			console.log(tempArr[i][0]['parentid'])
+		var parents=findParents(data['data'],tempArr[i][0]['parentid']);
+		str+='<li><span>'+parents['lev1'][0]['name']+'</span></br>'+parents['lev2'][0]['name']+':';
+			for(var j in tempArr[i]){
+				str+='<span style="padding:0 4px;color:#e8594b">'+tempArr[i][j]['name']+'</span>';
+			}
+		str+='</li>';
+	}
+	$('.myDomain').empty().append(str);
+
+	var selectedCatalogStr=""
+	for(var i in usercategorys['data']){
+		selectedCatalogStr+='<li data-id="'+usercategorys['data'][i]['id']+'">'+usercategorys['data'][i]['name']+'<i class="icon icon-remove"   onclick="removeCatalog(this)" style="cursor:pointer"></i></li>'
+
+	}
+	$('.selectedCatalog ul').empty().append(selectedCatalogStr)
+
+} 
+// 添加目录选择项目
+function addCatelog(e){
+	var arr=$('.selectedCatalog li'); 
+	var cataLogArr=[];
+	for(var i=0;i<arr.length;i++){ 
+		cataLogArr.push($(arr[i]).attr('data-id'))
+	}  
+	if(!($.inArray($(e).attr('data-id'), cataLogArr) >= 0)){
+		var id=$(e).attr('data-id');
+		var name=$(e).html();
+		console.log(id)
+		$('.selectedCatalog ul').append('<li data-id="'+id+'">'+name+'<i class="icon icon-remove"   onclick="removeCatalog(this)" style="cursor:pointer"></i></li>') 
+	}else{
+		alert('已经添加');
+	}
+	
+} 
+//移除目录选项
+function removeCatalog(e){ 
+	$(e).parent().remove();
+}
+
+function addDomain(){
+	var arr=$('.selectedCatalog li') ;  
+	var cataLogArr="";
+	for(var i=0;i<arr.length;i++){
+		cataLogArr += cataLogArr=="" ?  $(arr[i]).attr('data-id') : ","+$(arr[i]).attr('data-id');
+		//kind.push(parseInt($(arr[i]).attr('id'))); 
+	}  
+	params={
+		//"id":parseInt(sessionStorage.customerId),
+		"cids":cataLogArr
+	}
+	console.log(params);
+	$.ajax({
+		type: "put",
+		async: false,
+		url: "/user", 
+		contentType:"application/json", 
+		data:JSON.stringify(params), 
+		dataType:'json',
+		success: function(data){ 
+ 			console.log(data);
+			domain();
+		},
+		error: function(){
+			alert('fail'); 
+		}
+	}); 
+	$('.selectedCatalog ul').empty(); 
+}
+
+</script> 
+</body>
+
+</html>

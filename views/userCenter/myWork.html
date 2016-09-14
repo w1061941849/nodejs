@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html >
+<head> 
+<% include commonHead.html %> 
+<title>我的作品</title> 
+<style>
+
+.myWork{
+	margin-top:12px;
+}
+.myWork>.top{
+	padding-bottom:20px;
+	border-bottom:2px solid #e0e0e0;
+}
+.myWork>.top>span{
+	font-size:18px;
+	font-weight:800;
+	color:#666;
+}
+.myWork>.top>.btn{
+	background-color:#ec6941;
+	color:white;
+	float:right;
+}     
+.myWork>.list{
+	margin-top:20px;
+	margin-bottom:20px;
+}
+.myWork>.list .workName{
+	font-size:12px;
+}
+.myWork>.list .time{
+	font-size:12px;
+	color:#999;
+	float:right;
+}
+.myWork  .workType{
+	font-size:12px;
+	color:#999;
+}
+.workInfo{
+	background-color:white;
+	box-shadow:0px 0px 4px #e0e0e0;
+	margin-top:20px;
+}
+.workInfo p{
+	font-size: 12px;
+    color: #999;
+    display: block;
+    margin-top: 10px;
+    overflow: hidden;
+    width: 100%;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.workInfo .detail{
+	padding:10px 6px  0px 6px;
+}
+.workInfo .img{ 
+	  max-width: 200px;
+	overflow:hidden;
+}
+.workInfo img{ 
+	width:100%;
+}
+.workInfo .operation{
+	margin-top:10px;
+	border-top:1px solid #e0e0e0;
+	padding:6px 0 6px 0px;
+	text-align:right;
+}
+.workInfo .operation>a{
+	color:#ec6941;
+	 
+	
+}
+
+.projectPage>ul{
+	text-align:center;
+}
+.projectPage>ul>li{
+	display:inline-block;
+}
+.projectPage>ul>li>a{
+	display:block;
+	border-radius:10px;
+	height:20px;
+	width:20px; 
+	text-align:center;
+	vertical-align:middle;
+	
+	margin:4px;
+	color:#999;
+}
+.projectPage .active{
+	background-color:#ec6941;  
+	color:white;
+} 
+.projectPage i{
+	color:#999;
+	cursor:pointer;
+}
+</style>  
+</head>
+<body >
+ <% include header.html %>
+<div class="location">
+	<div class="w">
+		<span>当前位置：</span><a href="/">首页 ></a><a>用户中心 ></a><a href="/makeWork">我的作品 ></a><a href="/myWork">作品中心</a>
+	</div>
+</div>
+<div class="w" > 
+	<% include nav.html %>
+    <div class="content">
+    	<div class="myWork">
+			<div class="top">
+				<span>作品</span> 
+			</div>
+			<div class="list"> 
+				<div class="row">
+					<!--
+					
+					<div class="col-xs-12 col-sm-6 col-md-3">
+						<div class="workInfo">
+							<img src="../../images/index/254982166624103026.jpg">
+							<div class="detail">
+								<span class="workName">作品名称</span>
+								<span class="time">2016/15/6</span></br>
+								<span class="workType">作品类型</span>
+								<p>作品介绍：作品介绍：作品介绍：作品介绍：作品介绍：</p>
+								<div class="operation">
+									<a >删除</a>
+								</div>
+							</div>
+						</div>
+					</div>  
+					-->
+				</div> 
+			</div>
+			<div class="projectPage">
+				<ul>
+					<!--
+					<li><i class="glyphicon glyphicon-menu-left"></i></li>
+					<li><a class="active">1</a></li>
+					<li><a>2</a></li>
+					<li><a>3</a></li>
+					<li><i class="glyphicon glyphicon-menu-right"></i></li> 
+					-->
+				</ul>  
+			</div>
+		</div>
+    	
+    </div>
+	
+			
+</div>  
+<% include commonScript.html %>    
+<script   type="text/javascript">  
+$(function () {   
+	$('#myWorkList_2').addClass("active"); 
+	$.ajax({
+		type:"get",   //请求方式
+		url:"/userworks/1",    //请求的url地址
+		dataType:"json",   //返回格式为json
+		contentType:"application/json;charset=utf-8", 
+		success:function(data){
+			var string="";
+			for(var i in data['data']){
+				string+=workInfoString(data['data'][i]);
+				
+			}
+			$('.myWork .list').find('.row').append(string);
+			projectPage(data); 
+		},
+		error:function(){
+			alert("请求出错处理")
+		}
+	})  
+});
+//拼接作品字符串
+function workInfoString(data){
+	console.log(data);
+	var string=""
+	var worktags=getURIInfo(data['tags']);
+	console.log(worktags)
+	string+='<div class="col-xs-6 col-md-3">'+
+				'<div class="workInfo" id="'+data['workid']+'">'+
+					'<div class="img">'+
+						'<a href="'+data['image']+'" target="_blank"><img src="'+data['image']+'"></a>'+
+					'</div>'+
+					'<div class="detail">'+
+						'<span class="workName">'+data['title']+'</span>'+
+						'<span class="time">'+dateType(data['publishDate'])+'</span></br>'+
+						' <p>作品类型：';
+						for(var i in worktags){
+						string+=worktags[i]['name'];
+
+						}
+				string+='</p>'+
+						'<p>作品介绍：'+data['description']+'</p>'+
+						'<div class="operation">'+
+							'<a onclick="deleteWork(this)"><i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;删除</a>'+
+						'</div>'+
+					'</div>'+
+				'</div>'+
+			'</div> ';
+	return string; 
+}
+
+//删除作品
+function deleteWork(e){
+	var r=confirm("确定删除？");   
+	if(r==true){ 
+		var obj=$(e).parent().parent().parent().parent();
+		var params={
+			"id":parseInt(obj.find('.workInfo').attr('id'))
+		}
+		console.log(params);
+		
+		$.ajax({
+			type: "delete",
+			async: false,
+			url: "/work", 
+			contentType:"application/json", 
+			data:JSON.stringify(params), 
+			dataType:'json',
+			success: function(data){ 
+				console.log(data);  
+				obj.remove();
+			},
+			error: function(){
+				alert('fail');
+			}
+		}); 
+	} 
+}
+
+
+
+ //日期格式转换
+function dateType(date){
+	var date=new Date(date);
+	return date.toLocaleDateString();
+}
+
+//渲染分页
+function projectPage(data){
+	var $_projectPage=$('.projectPage'); 
+	$_projectPage.empty();
+	var string='<ul>'; 
+	if(data['total']!=0){
+		if(data['has_prev']){
+			string+='<li><i class="glyphicon glyphicon-menu-left" data-pageId="'+data['prev_num']+'" onclick="turnPage(this)"></i></li>'; 
+		}else{
+			string+='<li><i class="glyphicon glyphicon-menu-left" style="#f4f4f4"></i></li>'; 
+		} 		
+		for(var  i=1;i<=data['pages'];i++){ 
+			if(data['page']==i){
+				string+='<li><a class="active" onclick="turnPage(this)" data-pageId="'+i+'">'+i+'</a></li>';
+			}else{
+				string+='<li><a class="" onclick="turnPage(this)" data-pageId="'+i+'">'+i+'</a></li>';
+			} 
+		} 
+		if(data['has_next']){
+			string+='<li><i class="glyphicon glyphicon-menu-right" data-pageId="'+data['next_num']+'" onclick="turnPage(this)"></i></li>';
+		}else{
+			string+='<li><i class="glyphicon glyphicon-menu-right" style="#f4f4f4"></i></li>'; 
+		} 	 
+	}
+	
+	string+='</ul>'; 
+	$_projectPage.append(string); 
+}
+//翻页
+function turnPage(e){
+	var page=$(e).attr('data-pageId');
+	//console.log(page);
+	$.ajax({
+		type:"get",   //请求方式
+		url:"/api/v1.0/"+sessionStorage.customerId+"/userworks/"+page,    //请求的url地址
+		dataType:"json",   //返回格式为json
+		contentType:"application/json;charset=utf-8", 
+		success:function(data){
+			//console.log(data); 
+			$('.myWork .list').find('.row').empty();
+			var string="";
+			for(var i in data['data']){
+				string+=workInfoString(data['data'][i]);
+				
+				//console.log(stringList(data['result'][i]));
+			} 
+			$('.myWork .list').find('.row').append(string);
+			projectPage(data); 
+		},
+		error:function(){
+			alert("请求出错处理")
+		}
+	})  
+}
+
+
+
+function getURIInfo(url){
+	var temp;
+	$.ajax({
+		type:"get",   //请求方式
+		url:url.replace("http://10.0.1.122:8080/api/v1.0",""),
+		async: false,
+		dataType:"json",   //返回格式为json
+		contentType:"application/json;charset=utf-8", 
+		success:function(data){
+			temp=data;
+			console.log(data)
+		},
+		error:function(){
+			alert("请求出错处理")
+		}
+	})  
+	return temp;
+}
+</script> 
+</body>
+
+</html>
