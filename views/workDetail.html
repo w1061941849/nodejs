@@ -8,7 +8,7 @@
 .rightAside{
 	width:320px;position:absolute;top:0px;right:0px;padding:0 10px; 
 }
-.rightAside>.box>img{
+.rightAside>.box>a>img{
 	width:80px;height:80px;margin-left:20px;margin-top:10px;border-radius:100%;display:inline-block
 }
 .rightAside>.box>.userInfo{
@@ -126,16 +126,18 @@
 	</div>
 	<div class="rightAside"  >
 		<div class="box" style="min-height:300px;" >
-			<img src="<%= results['owner']['imageLarge']%>" >
+			<a href="http://10.0.1.122/userDetail?userid=<%=results['owner']['id'] %>"><img src="<%= results['owner']['imageLarge']%>"></a>
 			<div class="userInfo"  >
-				<span style="font-weight:800;font-size:18px;"><%= results['owner']['nickname']%></span></br>
-				<span>发布日期：</span></br><span style="color:#999999;font-size:12px;"><%= results['work']['publishDate']%></span>
+				<span style="font-weight:800;font-size:18px;"><a href="http://10.0.1.122/userDetail?userid=<%=results['owner']['id'] %>"><%= decodeURI(results['owner']['nickname']) %></a></span></br>
+				<span>发布日期：</span></br><span style="color:#999999;font-size:12px;"><%= results['work']['publishDate'].split("T")[0]%></span>
 			</div>  
 			<div class="worksList">
 				<% for(var i in results['works']['data']){%>
-					<a href="/workDetail?workid=<%= results['works']['data'][i]['workid']%>" class="worksList_">
-						<img src="<%= results['works']['data'][i]['image']%>" >  
-					</a>   
+					<a href="/workDetail?workid=<%= results['works']['data'][i]['workid']%>" data_num="<%= results['works']['data'][i]['workid']%>" class="worksList_">
+						
+                        <img src="<%= results['works']['data'][i]['image']%>" >  
+					   
+                    </a>   
 				<%}%>   
 			</div>
 			<div style="clear:both;"></div>
@@ -172,6 +174,15 @@ $(function() {
                 isAnimated: true,
             });
      });
+var n=window.location.href.split("?")[1].split("=")[1];	 
+$(".worksList>a").each(function(){
+	     if($(this).attr("data_num")== n){
+			 
+			 $(this).css("box-shadow","0px 0px 10px red");
+			 }
+	
+	});	
+	 
 }) 
 </script>
 </html>

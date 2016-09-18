@@ -87,7 +87,7 @@ exports.showHtml = function (req, res, next) {
     });   
 }; 
 function getUserCategorys(params,callback){
-	var path=params['categorys'].replace(appConfig.config.proxy.replace,"") 
+	var path=onearg['tags'].replace(appConfig.config.proxy.replace,"");
     var options={
         "path":path
     }  

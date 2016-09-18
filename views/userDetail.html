@@ -141,7 +141,7 @@
 				<i class="icon-user">资质认证：</i><span>未认证</span>
 			<%}%>    
 			<i class=" icon-envelope-alt"></i><span>邮箱：<%=results['user']['email']%></span>  
-			<i class="icon-map-marker"></i><span>联系地址：<%= (results['user']['location'] ? results['user']['location'] : "未填写")%></span> 
+			<i class="icon-map-marker"></i><span>联系地址：<%= ( decodeURI(results['user']['location']) ? decodeURI(results['user']['location']) : "未填写")%></span> 
 			<%if(results['user']['authenticationType'] & 4 ){%>
 				<i class="icon-credit-card"></i><span>交易认证：已认证</span>
 			<%}else{%>

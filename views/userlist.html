@@ -174,7 +174,7 @@ header #userlist{
 			 				<i class=" icon-envelope-alt"  title="<%= results['data'][i]['email']%>" style="color:#46b8da;margin-right:20px;"> </i> 
 			 			<%}%>
 			 			<%if(results['data'][i]['location']){%>
-			 				<i class=" icon-map-marker"  title="<%= results['data'][i]['location']%>" style="color:#fca75b;margin-right:20px;"> </i> 
+			 				<i class=" icon-map-marker"  title="<%= decodeURI(results['data'][i]['location'])%>" style="color:#fca75b;margin-right:20px;"> </i> 
 			 			<%}%>
 			 			
 			 		</span>
