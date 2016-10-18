@@ -93,8 +93,8 @@
 										<div class="box-header with-border">
 											<div class="user-block">
 												<img class="img-circle" src="<%= results[i][j]['userImage']%>" alt="User Image">
-												<span class="username"><a href="#"><%= results[i][j]['userName']%></a></span>
-												<span class="description"><%= results[i][j]['title']%></span>
+												<span class="username"><a href="#"><%= decodeURI(results[i][j]['userName'])%></a></span>
+												<span class="description"><%= decodeURI(results[i][j]['title'])%></span>
 											</div>
 											<div class="box-tools">
 												<button type="button" class="btn btn-box-tool" data-widget="collapse" onclick="messageToggle(this)">
@@ -248,8 +248,7 @@ if (url.indexOf("?") != -1) {
     var str = url.substr(1);
     strs = str.split("&"); 
     _projectid=strs[0].split("projectid=")[1]; 
-}
-var task_status=getInfoBytaskId()['status']; 
+} 
  
 //提出意见
 function sendSuggection(e){ 
@@ -307,9 +306,9 @@ function sendMessage(e){
 			string='<div class="box-comment"> ';   
 				string+='<img class="img-circle img-sm" src="'+data['userImage']+'"  > ';	 
 				string+='<div class="comment-text">'+
-							'<span class="username">'+data['userName']+''+
+							'<span class="username">'+decodeURI(data['userName'])+''+
 								'<span class="text-muted pull-right">'+dateType(data['publishDate'])+'</span>'+
-							'</span>'+data['message']+''+
+							'</span>'+decodeURI(data['message'])+''+
 						'</div> '+
 					'</div> '; 
 				$('#box-comments_'+params['noteid']).append(string); 
@@ -330,9 +329,9 @@ function stringMessage(data){
 		string+='<img class="img-circle img-sm" src="'+data['userImage']+'" alt="User Image"> ';		
 				} 
 		string+='<div class="comment-text">'+
-					'<span class="username">'+data['userName']+''+
+					'<span class="username">'+decodeURI(data['userName'])+''+
 						'<span class="text-muted pull-right">'+dateType(data['publishDate'])+'</span>'+
-					'</span>'+data['message']+''+
+					'</span>'+decodeURI(data['message'])+''+
 				'</div> '+
 			'</div> '; 
 	return string;

@@ -24,13 +24,13 @@
 				<div style="display:inline-block;position:relative;margin-right:10px;">
 					<a  href="/basicInfo"><img src="<%= session.imageSmall%>" style=""></a>
 					<%if( session['authenticationType'] & 1){%>
-						<div class="vip1" style="position:absolute;width:24px;height:24px;"></div> 
+						<div class="vip vip1" style="top:20px;position:absolute;width:22px;height:22px;"></div> 
 					<%}else if(  session['authenticationType'] & 2){%>
-						<div class="vip2" style="position:absolute;width:24px;height:24px;"></div>  
+						<div class="vip vip2" style="top:20px;position:absolute;width:22px;height:22px;"></div>  
 					<%}else {%> 
 					<%}%>
 				</div>  
-				<span style="vertical-align:top;margin-top:8px;display:inline-block;text-overflow:ellipsis;-o-text-overflow:ellipsis;white-space:nowrap;max-width: 100px;overflow: hidden;"><%= decodeURI(session.nickname) %></span>
+				<span style="vertical-align:top;margin-top:8px;display:inline-block;text-overflow:ellipsis;-o-text-overflow:ellipsis;white-space:nowrap;max-width: 100px;overflow: hidden;" title="<%= decodeURI(session.nickname) %>"><%= decodeURI(session.nickname) %></span>
 				<ul >
 					<li><a href="/makeProject"><i class="icon-edit"></i>发布项目</a></li>
 					<li><a href="/publishedProjects/1"><i class=" icon-file-alt"></i>我发布的项目</a></li>
@@ -38,7 +38,7 @@
 					<li><a href="/authentication"><i class=" icon-credit-card"></i>在线认证</a></li>
 					<li><a href="/basicInfo"><i class=" icon-cogs"></i>基本资料</a></li>
 					<li><a href="/makeWork"><i class="icon-picture"></i>发布作品</a></li>
-					<li><a href="/myWork"><i class=" icon-book"></i>作品中心</a></li>
+					<li><a href="/myWork/1"><i class=" icon-book"></i>作品中心</a></li>
 					<li><a  href="/logout"><i class="icon-off" ></i>退出</a></li> 
 				</ul>
 			</li> 

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>任务审核</title>
+<link href="../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../css/font-awesome.css" rel="stylesheet"/>    
+<style> 
+ body *{
+	font-family: '微软雅黑',YaHei,tahoma,arial,"Hiragino Sans GB"; 
+	 
+} 
+.wrapper{
+	margin-top:100px;
+	margin-bottom:50px;
+}
+table{
+	overflow:hidden;
+}
+table td{
+	font-size:12px;
+}
+a{
+cursor:pointer;
+}
+
+.projectPage>ul{
+	text-align:center;
+}
+.projectPage>ul>li{
+	display:inline-block;
+}
+.projectPage>ul>li>a{
+	display:block;
+	border-radius:10px;
+	height:20px;
+	width:20px; 
+	text-align:center;
+	vertical-align:middle;
+	
+	margin:4px;
+	color:#999;
+}
+.projectPage .active{
+	background-color:#ec6941;  
+	color:white;
+}
+
+
+.projectPage i{
+	color:#999;
+	cursor:pointer;
+}
+</style>  
+</head>
+<body  > 
+<div class="wrapper">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-2">
+				<div class="left">  
+					<ul class="nav nav-pills nav-stacked"> 
+						<li role="presentation" ><a href="./recommend.html">推荐位上传</a></li> 
+						<li role="presentation" ><a href="./classification.html">分类筛选编辑</a></li>
+						<li role="presentation" ><a href="./authenticationList.html">认证列表</a></li>
+						<li role="presentation" ><a href="./authenticationTrade.html">交易认证</a></li>
+						<li role="presentation" class="active"><a href="./authenticationTask.html">任务审核</a></li>
+						<li role="presentation"  ><a href="./userList.html">标签管理</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="  col-xs-10" >  
+				<div class="panel panel-default">
+					<div class="panel-heading">任务审核列表 </div>
+					<div class="list panel-body">
+						<table class="table table-hover "  id="tasklist">
+						<thead>
+							<tr> 
+								<td>项目名称</td>
+								<td>任务包名称</td>
+								<td>用户名称</td> 
+								<td>操作</td> 
+							</tr>
+						</thead>
+						<tbody> 
+						</tbody> 
+					</table> 
+					<div class="projectPage">
+						
+					</div>
+					</div>
+				</div>  
+			</div>
+		</div> 
+	</div>
+</div>   
+ 
+ 
+<script type="text/javascript" src="../js/jquery-2.2.3.min.js"></script> 
+<script type="text/javascript" src="../js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="../js/underscore.js"></script>
+<script type="text/javascript">
+ 
+var data={
+  "has_next": false, 
+  "has_prev": false, 
+  "next_num": 2, 
+  "page": 11, 
+  "pages": 13, 
+  "per_page": 10, 
+  "prev_num": 0, 
+  "result": [
+    {
+      "projectName": "asd", 
+      "projectURI": "http://139.196.183.6/api/v1.0/project/1", 
+      "projectid": 1, 
+      "task": {
+        "bidderQualifiRequire": "11", 
+        "bonus": 1111, 
+        "description": "111111", 
+        "id": 1, 
+        "name": "asd", 
+        "owner": "http://139.196.183.6/api/v1.0/user", 
+        "project": "http://139.196.183.6/api/v1.0/project/1", 
+        "publishDate": "2016-08-04T14:10:40", 
+        "receipt": true, 
+        "receiptDes": "asdas", 
+        "requirements": "1111111111", 
+        "status": 1, 
+        "timespan": "dasd"
+      }, 
+      "taskKinds": "new node,new node", 
+      "userLocation": null, 
+      "userName": "sdasd", 
+      "userURI": "http://139.196.183.6/api/v1.0/user/1", 
+      "userid": 1
+    }, 
+    {
+      "projectName": "asd", 
+      "projectURI": "http://139.196.183.6/api/v1.0/project/1", 
+      "projectid": 1, 
+      "task": {
+        "bidderQualifiRequire": "1", 
+        "bonus": 11, 
+        "description": "11", 
+        "id": 2, 
+        "name": "asdasd", 
+        "owner": "http://139.196.183.6/api/v1.0/user", 
+        "project": "http://139.196.183.6/api/v1.0/project/1", 
+        "publishDate": "2016-08-04T14:45:26", 
+        "receipt": true, 
+        "receiptDes": "11", 
+        "requirements": "11", 
+        "status": 4, 
+        "timespan": "11"
+      }, 
+      "taskKinds": "new node,new node", 
+      "userLocation": null, 
+      "userName": "sdasd", 
+      "userURI": "http://139.196.183.6/api/v1.0/user/1", 
+      "userid": 1
+    }
+  ], 
+  "total": 2
+} 
+//渲染分页
+function projectPage(data){
+	var $_projectPage=$('.projectPage'); 
+	$_projectPage.empty();
+	var string='<ul>'; 
+	if(data['total']!=0){
+		if(data['has_prev']){
+			string+='<li><i class="glyphicon glyphicon-menu-left" data-pageId="'+data['prev_num']+'" onclick="turnPage(this)"></i></li>'; 
+		}else{
+			string+='<li><i class="glyphicon glyphicon-menu-left" style="#f4f4f4"></i></li>'; 
+		} 	 
+ 	 	if(data['pages']<=6) {
+ 	 		for(var  i=1;i<=data['pages'];i++){ 
+ 	 			if(data['page']==i){
+					string+='<li><a class="active" onclick="turnPage(this)" data-pageId="'+i+'">'+i+'</a></li>';
+				}else{
+					string+='<li><a class="" onclick="turnPage(this)" data-pageId="'+i+'">'+i+'</a></li>';
+				} 
+ 	 		}
+ 	 	}else if(data['pages']>6){
+ 	 		if(data['page']<=6){ 
+ 	 			for(var  i=1;i<=6;i++){ 
+ 	 				if(data['page']==i){
+						string+='<li><a class="active" onclick="turnPage(this)" data-pageId="'+i+'">'+i+'</a></li>';
+					}else{
+						string+='<li><a class="" onclick="turnPage(this)" data-pageId="'+i+'">'+i+'</a></li>';
+					}  
+ 	 			}
+ 	 			string+='<li>...</li>';  
+ 	 		}else if(data['page']>6)  {  
+ 	 				if((data['page']+2)<data['pages']){
+						string+='<li><a   onclick="turnPage(this)" data-pageId="1">1</a></li>'+
+ 	 						'<li>...</li>'+
+					        '<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']-2)+'">'+(data['page']-2)+'</a></li>'+
+							'<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']-1)+'">'+(data['page']-1)+'</a></li>'+
+							'<li><a class="active" onclick="turnPage(this)" data-pageId="'+data['page']+'">'+data['page']+'</a></li>'+
+							'<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']+1)+'">'+(data['page']+1)+'</a></li>'+
+							'<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']+2)+'">'+(data['page']+2)+'</a></li>'+ 
+							'<li>...</li>';   
+					}else{
+						string+='<li><a   onclick="turnPage(this)" data-pageId="1">1</a></li>'+
+ 	 						'<li>...</li>'+
+					        '<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']-2)+'">'+(data['page']-2)+'</a></li>'+
+							'<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']-1)+'">'+(data['page']-1)+'</a></li>'+
+							'<li><a class="active" onclick="turnPage(this)" data-pageId="'+data['page']+'">'+data['page']+'</a></li>';
+						if((data['pages']-data['page'])>1){
+							string+='<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']+1)+'">'+(data['page']+1)+'</a></li>'+
+								'<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']+2)+'">'+(data['page']+2)+'</a></li>';
+						}else{
+							string+='<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']+1)+'">'+(data['page']+1)+'</a></li>';
+						} 	
+					} 
+ 	 		} 
+ 	 	} 
+		if(data['has_next']){
+			string+='<li><i class="glyphicon glyphicon-menu-right" data-pageId="'+data['next_num']+'" onclick="turnPage(this)"></i></li>';
+		}else{
+			string+='<li><i class="glyphicon glyphicon-menu-right" style="#f4f4f4"></i></li>'; 
+		} 	 
+	}
+	
+	string+='</ul>'; 
+	$_projectPage.append(string); 
+}
+ 
+projectPage(data)
+
+</script>  
+</body>
+
+</html>

@@ -16,7 +16,7 @@ exports.userauthen = function (req, res, next) {
 };
 exports.privateAuthen = function (req, res, next) {    
     var params={
-        "ownerid":req.session.user.id ,
+        "ownerid": req.body.ownerid ? req.body.ownerid : req.session.user.id ,
 		'identityid':req.body.identityid,
 		'name':req.body.name,
 		'identityFrontImage':req.body.identityFrontImage,
@@ -36,7 +36,7 @@ exports.privateAuthen = function (req, res, next) {
 }    
 exports.delPrivateAuthen = function (req, res, next) {    
     var params={
-        'ownerid':req.session.user.id 
+        'ownerid':req.body.ownerid ? req.body.ownerid : req.session.user.id 
     }
     var options={
         'path':'/privateauthen' 
@@ -51,7 +51,7 @@ exports.delPrivateAuthen = function (req, res, next) {
 }  
 exports.companyAuthen = function (req, res, next) {    
     var params={
-        "ownerid":req.session.user.id ,
+        "ownerid":req.body.ownerid ? req.body.ownerid : req.session.user.id ,
 		'name':req.body.name,
 		'businessScope':req.body.businessScope,
         'licenseID':req.body.licenseID,
@@ -73,7 +73,7 @@ exports.companyAuthen = function (req, res, next) {
 } 
 exports.delCompanyAuthen = function (req, res, next) {    
     var params={
-        'ownerid':req.session.user.id 
+        'ownerid':req.body.ownerid ? req.body.ownerid : req.session.user.id 
     }
     var options={
         'path':'/companyauthen' 
@@ -88,7 +88,7 @@ exports.delCompanyAuthen = function (req, res, next) {
 } 
 exports.bankAuthen = function (req, res, next) {    
     var params={
-        "ownerid":req.session.user.id , 
+        "ownerid":req.body.ownerid ? req.body.ownerid : req.session.user.id , 
 		'name':req.body.name,
 		'bankAccount':req.body.bankAccount, 
         'bankName':req.body.bankName,
@@ -125,7 +125,7 @@ exports.modifyBankAuthen = function (req, res, next) {
 }  
 exports.delBankAuthen = function (req, res, next) {    
     var params={
-        "ownerid":req.session.user.id,
+        "ownerid":req.body.ownerid ? req.body.ownerid : req.session.user.id ,
     }
     console.log(params)
     var options={
@@ -142,7 +142,7 @@ exports.delBankAuthen = function (req, res, next) {
 
 exports.manualthen = function (req, res, next) {    
     var params={
-        "ownerid":req.session.user.id , 
+        "ownerid":req.body.ownerid ? req.body.ownerid : req.session.user.id , 
 		"name":req.body.name,
 		"phone":req.body.phone,
 		"location":req.body.location,
@@ -150,6 +150,29 @@ exports.manualthen = function (req, res, next) {
     console.log(params)
     var options={
         'path':'/manualthen' 
+    }
+    httpUtil.post(params,options,function(result,err){
+        if(err){ 
+            res.send("statusCode is:"+err);  
+        }else{  
+            res.send(result); 
+        }
+    })  
+} 
+
+exports.approval = function (req, res, next) {    
+    var params={
+        "authenType":req.body.authenType,  
+        "authenID":req.body.authenID,  
+        "approvalStatus":req.body.approvalStatus,  
+        "userid":req.body.userid,  
+        "adminid":req.body.adminid,  
+        //"description":"asdasd"
+        "description":req.body.description,  
+    }
+    console.log(params)
+    var options={
+        'path':'/approval' 
     }
     httpUtil.post(params,options,function(result,err){
         if(err){ 

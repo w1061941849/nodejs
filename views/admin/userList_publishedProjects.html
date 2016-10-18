@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>用户管理</title>
+<link href="../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../css/font-awesome.css" rel="stylesheet"/>    
+<style> 
+ body *{
+	font-family: '微软雅黑',YaHei,tahoma,arial,"Hiragino Sans GB"; 
+	 
+} 
+.wrapper{
+	margin-top:100px;
+	margin-bottom:50px;
+} 
+.authenicationInfo{
+	display: none;
+}
+.fliter{
+	display:inline-block;
+}
+.fliter +input{
+	display:inline-block;
+	height:26px;
+}
+.fliter>li{
+	display:inline-block;
+	margin-top:6px;
+	margin-right:0px;
+}
+.fliter>li>a{
+	color:#666;
+}
+.fliter .active{
+	color:#ec6941; 
+}  
+.list{
+	position:relative; 
+	margin-bottom:40px;
+}   
+.time{
+	color:#999;
+	font-size:12px;
+}
+.status{
+	color:#ec6941;
+	font-size:12px;
+}
+.operation a{
+	color:#ec6941;
+	display:inline-block;
+	padding:0px 4px 0px 4px;
+	border:1px solid #ec6941;
+	border-radius:10px;
+}
+.projectPage>ul{
+	text-align:center;
+}
+.projectPage>ul>li{
+	display:inline-block;
+}
+.projectPage>ul>li>a{
+	display:block;
+	border-radius:10px;
+	height:20px;
+	width:20px; 
+	text-align:center;
+	vertical-align:middle;
+	
+	margin:4px;
+	color:#999;
+}
+.projectPage .active{
+	background-color:#ec6941;  
+	color:white;
+} 
+.projectPage i{
+	color:#999;
+	cursor:pointer;
+}
+ 
+table td{
+	text-align: center;
+}
+.operationBtn{
+	display:inline-block;
+	border-radius:10px;
+	border:1px solid #ec6941;
+	padding:0 6px;
+}
+ 
+.endBtn i {
+	display:block;
+	color:#999;
+	font-size:16px;
+	cursor:pointer;
+} 
+
+
+.catalog .active{
+
+	border:1px solid red;
+}
+.catalog a{
+	cursor: pointer;
+	display: inline-block;
+	padding:0px 4px;
+}
+
+</style>  
+</head>
+<body  > 
+<div class="wrapper">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="container">
+					<div class="list">   
+						<div class="panel panel-default">  
+							<div class="panel-heading">
+								<ul class="fliter">
+									<li><a  class="active" onclick="filterStatus('',this)" >全部</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+									<li><a onclick="filterStatus(1,this)">竞标中</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+									<li><a onclick="filterStatus(2,this)">进行中</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+									<li><a onclick="filterStatus(3,this)">已结束</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+									<li><a onclick="filterStatus(4,this)">审核中</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+									<li><a onclick="filterStatus(5,this)">中止</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+									<li><a onclick="filterStatus(6,this)">未通过</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+								</ul>
+								<button type="button" class="btn pull-right btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+								  添加项目
+								</button>
+								<!--
+								<div class="input-group"   style="width:200px;    float: right;position: relative;top: -12px;"> 
+							      	<input type="text" class="form-control" placeholder="Search for...">
+							      	<span class="input-group-btn">
+							       	 	<button id="searchprojectInput" class="btn btn-primary" type="button"  >搜索</button>
+							      	</span>
+							    </div> 
+							    -->
+							</div>
+							<div class="panel-body" >   
+								<table class="table table-hover ">
+									<thead>
+										<tr>
+											<td>项目名</td>
+											<td>状态</td>
+											<td>发布时间</td>
+											<td>竞标数</td>
+											<td>操作区</td>
+											<td>关闭项目</td>
+										</tr>
+									</thead>
+									<tbody > 
+									</tbody>
+								</table>  
+								<div class="projectPage">
+									<ul>
+										<!--
+										<li><i class="glyphicon glyphicon-menu-left"></i></li>
+										<li><a class="active">1</a></li>
+										<li><a>2</a></li>
+										<li><a>3</a></li>
+										<li><i class="glyphicon glyphicon-menu-right"></i></li> 
+										-->
+									</ul>  
+								</div>
+							</div>  
+						</div> 
+					</div>  
+				</div>
+			</div> 
+		</div> 
+	</div>  
+</div> 
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">添加项目</h4>
+      </div>
+      <div class="modal-body">
+      		<div class="catalog">
+      			<ul>
+      				
+      			</ul> 
+      		</div>
+        	<div class="input-group">
+				<span class="input-group-addon"   ><font style="color:red">*</font>任务包名称：</span>
+				<input class="form-control" name="name"  >
+			</div>  
+			<div class="input-group">
+				<span class="input-group-addon"   ><font style="color:red">*</font>任务包周期：</span>
+				<input class="form-control" name="timespan" >
+			</div>  
+			<div class="input-group">
+				<span class="input-group-addon"   ><font style="color:red">*</font>任务包赏金：</span>
+				<input class="form-control" name="bonus"   >
+				<span class="input-group-addon"  style="color:#999999">请输入数字（单位：人民币）</span>
+
+			</div> 
+			<div class="input-group">
+				<span class="input-group-addon"   ><font style="color:red">*</font>任务包要求：</span>
+				<textarea class="form-control requirements"   style="resize:none; height:100px;"></textarea>
+			</div> 
+			<div class="input-group">
+				<span class="input-group-addon"   >任务包介绍：</span>
+				<textarea class="form-control description"   style="resize:none; height:100px;"></textarea>
+			</div>  
+			<div class="input-group">
+				<span class="input-group-addon"   >乙方资质要求：</span>
+				<input class="form-control" name="bidderQualifiRequire"  >
+			</div>  
+			<div class="input-group">
+				<span class="input-group-addon"   >乙方地域要求：</span>
+				<input class="form-control" name="bidderLocationRequire"  >
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon"   ><input type="checkbox" id="receipt" >发票：</span>
+				<textarea class="form-control receiptDes"    style="resize:none; height:100px;"></textarea>
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary"  onclick="addProject()">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="../js/jquery-2.2.3.min.js"></script> 
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>  
+<script type="text/javascript" src="../js/underscore.js"></script> 
+<script type="text/javascript" src="../config.json"></script>  
+<script type="text/javascript">
+ 
+$(function () {   
+	$.ajax({
+		type: "get",
+		async: false,
+		url: "/api/v1.0/categorylist", 
+		contentType:"application/json",  
+		dataType:'json',
+		success: function(data){  
+			var str=""
+			for(var i in data['data']){
+			 	if(data['data'][i]['parentid']==data['data'][i]['id']  ){
+			 		str+='<li class="catalog-li"><span>'+data['data'][i]['name']+'  </span><ul>';
+			 			for(var j in data['data']){
+			 				if(data['data'][j]['parentid']==data['data'][i]['id']  && data['data'][j]['id']!=data['data'][i]['id']){
+			 					str+='<li><span>'+data['data'][j]['name']+'</span>';
+			 							for(var k in data['data']){
+			 								if(data['data'][k]['parentid']==data['data'][j]['id']  && data['data'][k]['id']!=data['data'][j]['id'])
+			 								str+='<a  data-id="'+data['data'][k]['id']+'" onclick="addCatelog(this)">'+data['data'][k]['name']+'</a>'; 
+			 							}  
+									'</li>'; 
+			 				}  
+			 			}
+			 		str+='</ul></li>'
+			 	}
+
+			} 
+			$('.catalog ul').append(str);
+			 
+		},
+		error: function(){
+			alert('fail');
+		} 
+	});   
+	var params={
+		'page':1, 
+		'status':"",
+		'keyword':""
+	}  
+    findProjects(params);
+});   
+//全局变量
+var _status="",
+ 	_keyword="";
+var url = location.search;
+console.log(url);
+var theRequest = {};  
+if (url.indexOf("?") != -1) {
+    var str = url.substr(1);
+    strs = str.split("&"); 
+    theRequest={ 
+    	"userid":strs[0].split("userid=")[1], 
+    }
+    console.log(theRequest)
+   /* for(var i = 0; i < strs.length; i ++) {
+        theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+    }*/
+}
+$('#searchprojectInput').click(function(){
+	_keyword=$(this).parent().parent().find('input').val();
+	var params={
+		'page':1, 
+		'status':_status,
+		'keyword':_keyword
+	}  
+	findProjects(params);  
+}) 
+//渲染分页
+function projectPage(data){
+	var $_projectPage=$('.projectPage'); 
+	$_projectPage.empty();
+	var string='<ul>'; 
+	if(data['total']!=0){
+		if(data['has_prev']){
+			string+='<li><i class="glyphicon glyphicon-menu-left" data-pageId="'+data['prev_num']+'" onclick="turnPage(this)"></i></li>'; 
+		}else{
+			string+='<li><i class="glyphicon glyphicon-menu-left" style="#f4f4f4"></i></li>'; 
+		} 	 
+ 	 	if(data['pages']<=6) {
+ 	 		for(var  i=1;i<=data['pages'];i++){ 
+ 	 			if(data['page']==i){
+					string+='<li><a class="active" onclick="turnPage(this)" data-pageId="'+i+'">'+i+'</a></li>';
+				}else{
+					string+='<li><a class="" onclick="turnPage(this)" data-pageId="'+i+'">'+i+'</a></li>';
+				} 
+ 	 		}
+ 	 	}else if(data['pages']>6){
+ 	 		if(data['page']<=6){ 
+ 	 			for(var  i=1;i<=6;i++){ 
+ 	 				if(data['page']==i){
+						string+='<li><a class="active" onclick="turnPage(this)" data-pageId="'+i+'">'+i+'</a></li>';
+					}else{
+						string+='<li><a class="" onclick="turnPage(this)" data-pageId="'+i+'">'+i+'</a></li>';
+					}  
+ 	 			}
+ 	 			string+='<li>...</li>';  
+ 	 		}else if(data['page']>6)  {  
+ 	 				if((data['page']+2)<data['pages']){
+						string+='<li><a   onclick="turnPage(this)" data-pageId="1">1</a></li>'+
+ 	 						'<li>...</li>'+
+					        '<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']-2)+'">'+(data['page']-2)+'</a></li>'+
+							'<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']-1)+'">'+(data['page']-1)+'</a></li>'+
+							'<li><a class="active" onclick="turnPage(this)" data-pageId="'+data['page']+'">'+data['page']+'</a></li>'+
+							'<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']+1)+'">'+(data['page']+1)+'</a></li>'+
+							'<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']+2)+'">'+(data['page']+2)+'</a></li>'+ 
+							'<li>...</li>';   
+					}else{
+						string+='<li><a   onclick="turnPage(this)" data-pageId="1">1</a></li>'+
+ 	 						'<li>...</li>'+
+					        '<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']-2)+'">'+(data['page']-2)+'</a></li>'+
+							'<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']-1)+'">'+(data['page']-1)+'</a></li>'+
+							'<li><a class="active" onclick="turnPage(this)" data-pageId="'+data['page']+'">'+data['page']+'</a></li>';
+						if((data['pages']-data['page'])>1){
+							string+='<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']+1)+'">'+(data['page']+1)+'</a></li>'+
+								'<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']+2)+'">'+(data['page']+2)+'</a></li>';
+						}else{
+							string+='<li><a   onclick="turnPage(this)" data-pageId="'+(data['page']+1)+'">'+(data['page']+1)+'</a></li>';
+						} 	
+					} 
+ 	 		} 
+ 	 	} 
+		if(data['has_next']){
+			string+='<li><i class="glyphicon glyphicon-menu-right" data-pageId="'+data['next_num']+'" onclick="turnPage(this)"></i></li>';
+		}else{
+			string+='<li><i class="glyphicon glyphicon-menu-right" style="#f4f4f4"></i></li>'; 
+		} 	 
+	} 
+	string+='</ul>'; 
+	$_projectPage.append(string); 
+}
+//翻页
+function turnPage(e){ 
+	//console.log(page);
+	var params={
+		'page':$(e).attr('data-pageId'), 
+		'status':_status,
+		'keyword':_keyword
+	} 
+	findProjects(params); 
+}
+
+
+//状态筛选 
+function filterStatus(status,e){
+	$(".fliter a").removeClass('active');
+	$(e).addClass('active');
+	_status=status;
+	var params={
+		'page':1, 
+		'status':_status,
+		'keyword':_keyword
+	}  
+	findProjects(params); 
+} 
+
+$('#searchTaskInput').click(function(){
+	_keyword=$(this).parent().parent().find('input').val();
+	var params={
+		'page':1, 
+		'status':_status,
+		'keyword':_keyword
+	}  
+	findProjects(params);  
+}) 
+//状态筛选
+function findProjects(params){ 
+	var url= "http://10.0.1.122:8080/api/v1.0/userPublishedProjects/"+params['page']+"?userid="+theRequest['userid']
+	if( !params['status']==""   ){
+		url+='&status='+params['status']
+	}if(!params['keyword']==""){
+		url+='&keyword='+params['keyword']
+	}
+	console.log(url) 
+	$.ajax({
+		type:"get",   //请求方式
+		url:url,    //请求的url地址
+		dataType:"json",   //返回格式为json
+		contentType:"application/json;charset=utf-8", 
+		success:function(data){
+			var str="";
+			for(var i in data['data']){
+				str+=stringTask(data['data'][i])
+
+			}
+
+			$('.list tbody').empty().append(str);
+			projectPage(data);
+		},
+		error:function(){
+			alert("请求出错处理")
+		}
+	})    
+}
+//拼接任务字符串
+function stringTask(data){ 
+	console.log(data);
+	var string=""
+	if(data['status']=="1"){
+		string+='<tr id="'+data['id']+'">'+
+					'<td><a onclick="toTaskDetail(this)" style="color:#333">'+data['name']+'</a> </td>'+
+					'<td class="status"> 竞标中</td>'+
+					'<td><span class="time">'+dateType(data['publishDate'])+'</span></td>'+
+					'<td><span style="color:#999;">'+getBidCount(data['bidCount'])+'</span></td>'+
+					'<td class="operation"><a onclick="toBiddingManager(this)">竞标管理</a></td>'+
+					'<td class="endBtn"><i class=" icon-remove-circle" onclick="toEndStatus(this)"></></td>'+
+				'</tr>' ;
+	}else if(data['status']=="2"){
+		string+='<tr id="'+data['id']+'">'+
+					'<td><a onclick="toTaskDetail(this)" style="color:#333">'+data['name']+'</a> </td>'+
+					'<td class="status"> 进行中</td>'+
+					'<td><span class="time">'+dateType(data['publishDate'])+'</span></td>'+
+					'<td><span style="color:#999;">'+getBidCount(data['bidCount'])+'</span></td>'+
+					'<td class="operation"><a  onclick="toVersion(this)">version</a> <a onclick="toSuggection(this)">意见</a></td>'+
+					'<td class="endBtn"><i class=" icon-remove-circle" onclick="toEndStatus(this)"></></td>'+
+				'</tr>' ; 
+	}else if(data['status']=="3"){
+		string+='<tr id="'+data['id']+'">'+
+					'<td><a onclick="toTaskDetail(this)" style="color:#333">'+data['name']+'</a> </td>'+
+					'<td class="status" style="color:#999;"> 已结束</td>'+
+					'<td><span class="time">'+dateType(data['publishDate'])+'</span></td>'+
+					'<td><span style="color:#999;">'+getBidCount(data['bidCount'])+'</span></td>'+
+					'<td class="operation"><a  onclick="toVersion(this)">version</a> <a onclick="toSuggection(this)">意见</a></td>'+
+				'</tr>' ; 
+	}else if(data['status']=="4"){
+		string+='<tr id="'+data['id']+'">'+
+					'<td><a onclick="toTaskDetail(this)" style="color:#333">'+data['name']+'</a> </td>'+
+					'<td class="status" style="color:#999;"> 审核中</td>'+
+					'<td><span class="time">'+dateType(data['publishDate'])+'</span></td>'+
+					'<td><span style="color:#999;">'+getBidCount(data['bidCount'])+'</span></td>'+
+					'<td class="operation"></td>'+
+					'<td class="endBtn"><i class=" icon-remove-circle" onclick="toEndStatus(this)"></></td>'+
+				'</tr>' ; 
+	}else if(data['status']=="5"){
+		string+='<tr id="'+data['id']+'">'+
+					'<td><a onclick="toTaskDetail(this)" style="color:#333">'+data['name']+'</a> </td>'+
+					'<td class="status" style="color:#999;">中止</td>'+
+					'<td><span class="time">'+dateType(data['publishDate'])+'</span></td>'+
+					'<td><span style="color:#999;">'+getBidCount(data['bidCount'])+'</span></td>'+
+					'<td class="operation"></td>'+
+					'<td class="operation"></td>'+
+				'</tr>' ; 
+	}else if(data['status']=="6"){
+		string+='<tr id="'+data['id']+'">'+
+					'<td><a onclick="toTaskDetail(this)" style="color:#333">'+data['name']+'</a> </td>'+
+					'<td class="status" style="color:#999;"> 未通过</td>'+
+					'<td><span class="time">'+dateType(data['publishDate'])+'</span></td>'+
+					'<td><span style="color:#999;">'+getBidCount(data['bidCount'])+'</span></td>'+
+					'<td class="operation">未通过</td>'+
+				'</tr>' ; 
+	}
+	return string; 
+}  
+//状态结束按钮
+function toEndStatus(e){
+	var $_e=$(e);
+	var params={
+		'id':parseInt($(e).parent().parent().attr('id')), 
+		'status':5
+	} 
+	console.log(params);
+	var r=confirm("确定结束此任务包？");   
+	if(r==true){ 
+		$.ajax({
+			type: "put",
+			async: false,
+			url:"/api/v1.0/project", 
+			contentType:"application/json", 
+			data:JSON.stringify(params), 
+			dataType:'json',
+			success: function(data){  
+				$_e.css('display','none');
+				$_e.parent().parent().find('.status').html('中止');
+				$_e.parent().parent().find('.status').css('color','#999');
+			},
+			error: function(){
+				alert('fail');
+			}
+		}); 
+       
+	}else{
+         return false;   
+	}  
+}  
+
+function getBidCount(url){
+	var count="";
+	$.ajax({
+			type: "get",
+			async: false,
+			url:url,
+			contentType:"application/json",  
+			dataType:'json',
+			success: function(data){  
+				 count=data['count'];
+			},
+			error: function(){
+				alert('fail');
+			}
+		}); 
+	return count;
+
+}
+//日期格式转换
+function dateType(date){
+	var date=new Date(date);
+	return date.toLocaleDateString();
+}
+function addCatelog(e){
+	var id=$(e).attr('data-id');
+ 	
+ 	if($(e).hasClass('active')){
+ 		$(e).removeClass('active') 
+ 	}else{ 
+ 		$(e).addClass('active')
+ 	} 
+
+} 
+function addProject(){
+	
+	var arr=$('.catalog  .active') ;  
+	var cataLogArr="";
+	console.log(arr)
+	for(var i=0;i<arr.length;i++){
+		cataLogArr += cataLogArr=="" ?  $(arr[i]).attr('data-id') : ","+$(arr[i]).attr('data-id');
+		//kind.push(parseInt($(arr[i]).attr('id')));
+		 
+	} 
+
+	console.log(cataLogArr)
+	var params={
+		"userid":theRequest['userid'],
+		"name":$('input[name="name"]').val(),
+		"timespan":$('input[name="timespan"]').val(),
+		"bonus":$('input[name="bonus"]').val(),
+		"requirements":$('.requirements').val().replace(/\n|\r\n/g,"<br>"),
+		"description":$('.description').val().replace(/\n|\r\n/g,"<br>"),
+		"bidderQualifiRequire":$('input[name="bidderQualifiRequire"]').val(),
+		"bidderLocationRequire":$('input[name="bidderLocationRequire"]').val(),
+		"receiptDes":$('.receiptDes').val().replace(/\n|\r\n/g,"<br>")  ,
+		"receipt":$('input[type="checkbox"]').is(':checked') ? true :false,
+		"cids":cataLogArr
+
+	}
+	console.log(params)
+	$.ajax({
+		type: "post",
+		async: false,
+		url: "/api/v1.0/project", 
+		contentType:"application/json", 
+		data:JSON.stringify(params), 
+		dataType:'json',
+		success: function(data){  
+			console.log(data); 
+			alert("添加成功")
+			$('#myModal').modal('toggle')
+			 
+			 
+		},
+		error: function(){
+			alert('fail');
+		}
+	});   
+}  
+</script>  
+</body>
+
+</html>

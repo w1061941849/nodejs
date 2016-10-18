@@ -25,6 +25,7 @@
 	width:160px;
 	display:block;
 	margin:0 auto;
+	position: relative;
 }  
   
 .myDomain>li{
@@ -32,85 +33,8 @@
 	border-bottom: 1px dashed #e0e0e0;
 
 }
-.selectedCatalog{
-	background-color:#e8594b;
-	border-radius: 4px;
-	height: 40px; 
-
-}
-.selectedCatalog>ul{
-	display: inline-block;
-}
-.selectedCatalog>ul>li{
-	border:1px solid white;
-	border-radius: 2px;
-	display: inline-block;
-	margin:0 4px;
-	color:white;
-	padding:2px;
-}
-.catalog{
-	position: relative; 
-
-}
-.catalog>ul{    
-	width:200px;
-	background-color: #ecf0f5;  
-	min-height: 400px;
-} 
-
-.catalog>ul>li{   
-	width: 100%;  
-}
-.catalog>ul>li>span{   
-	display: block;
-	padding:10px; 
-	width:200px;
-	text-align: center;
-	
-}
-.catalog ul>li>ul{
-	width:100%;
-	display: none;
-	width:-moz-calc(100% - 200px);
-	width:-webkit-calc(100% - 200px);
-	width: calc(100% - 200px);
-}
-.catalog ul>li:hover ul{
-	display: block; 
-}
-.catalog ul>li:hover >span{
-	color: #e8594b;
-	background-color: white;
-}
-.catalog ul>li>ul{
-	position: absolute;
-	margin-left:200px;
-	top:0px;  
-	min-height: 400px;
-}
-.catalog ul>li>ul>li{
-	padding:8px;
-	border-bottom: 1px dashed #e0e0e0;
-	margin-left:20px; 
-}.catalog ul>li>ul>li>span{
-	color:#e8594b;
-	display: inline-block;
-	text-align: right;
-	width:120px;
-	margin-right: 10px;
-}
-.catalog ul>li>ul>li>a{
-	color:#999999;
-	margin:0 10px; 
-}
-.catalog ul>li>ul>li>a:hover{
-	color:#e8594b;
-}
-.input-group-addon{
-	width:130px !important;
-}
-.myDomain>li span:first-child{
+  
+.myDomain>li>span{
 	background-color: #fadedb;
     min-width: 100px;
     text-align: center; 
@@ -120,6 +44,68 @@
     margin-bottom: 8px;
     display: inline-block;
     margin-bottom: 8px;
+}
+.myDomain>li>div{
+ 
+}
+
+
+
+.categorys{
+  	 width:210px;
+  	background-color:rgba(0,0,0,0.8);
+  	float: left;
+  	z-index: 100;
+  	left:0px;display: block;
+  	top: 2px;
+} 
+.categorys>li{
+	padding:16px 0;
+	display:  block; 
+	color:white;
+	text-align: left; 
+	padding-left: 60px;
+	font-size: 14px;  
+}
+.categorys>li>ul { 
+	display: none; 
+	background-color: white;
+	text-align: left; 
+	border-left:0px;
+	width:600px;
+	min-height: 400px;
+}
+.categorys>li>ul>li{
+	padding:10px 0;
+	margin:0 20px;
+	border-bottom: 1px dashed #e0e0e0;
+}
+.categorys>li>ul span{ 
+	color:#e8594b;
+	display: inline-block;width: 150px;
+	text-align: right;
+	padding-right: 4px;
+	vertical-align: top
+
+}
+.categorys>li>ul .categorys-sons  { 
+	display: inline-block;
+	width: 400px;
+}
+.categorys>li>ul .categorys-sons a{ 
+	color:#999999;
+	cursor: pointer;
+	display: inline-block;
+	padding:0 4px 4px 0;
+	font-size: 14px;
+}
+.categorys>li:hover{ 
+	color:#999;
+}
+.categorys>li:hover .drop-meanu{ 
+	display: block;
+	position:absolute;top:0px;
+	left:210px;z-index:900;
 }
 </style>  
 </head>
@@ -137,23 +123,40 @@
 		<div class="top">
 			<span>行业分类</span> 
 		</div>
-		<ul class="myDomain"> 
-		</ul>
+		<ul class="myDomain">  
+		</ul>   
 		</br>
-		</br> 
-		<div class="selectedCatalog">
-			<span style="width:200px;display:inline-block;text-align:right;line-height:40px;color:white;">您选择了：</span>
-			<ul style="display:inline-block">
-			 
-			</ul>
-		</div>  
-		<div class="catalog">
-			<ul > 
+		<div style="position:relative;height:400px;">
+			<ul class="categorys" style=" position:absolute"> 
+				<%if(results['categorylist']){%>
+					<%for(var i in results['categorylist']['data']){%> 
+						<%if(results['categorylist']['data'][i]['id']==results['categorylist']['data'][i]['parentid']){%>
+							<li ><%= results['categorylist']['data'][i]['name']%>
+								<ul class="drop-meanu"   > 
+									<%for(var j in results['categorylist']['data']){%>
+										<%if(results['categorylist']['data'][i]['id']==results['categorylist']['data'][j]['parentid'] && results['categorylist']['data'][j]['parentid']!= results['categorylist']['data'][j]['id']  ){%>
+										<li>
+										<span><a style="color:#e8594b" ><%= results['categorylist']['data'][j]['name']%></a></span>
+										<div class="categorys-sons">
+											<ul >
+											<%for(var k in results['categorylist']['data']){%>
+												<%if(results['categorylist']['data'][j]['id']==results['categorylist']['data'][k]['parentid']){%>
+													 <a  data-id="<%= results['categorylist']['data'][k]['id']%>"><%= results['categorylist']['data'][k]['name']%></a> 
+												<%}%> 
+											<%}%> 
+											</ul>
+										</div>
+										</li>
+										<%}%>  
+									<%}%>  
+								</ul>
+							</li>
+						<%}%> 
+					<%}%> 
+				<%}%>
 			</ul> 
 		</div> 
-		</br> 
-		<button class="btn" style="margin: 0 auto;display:block"   onclick="addDomain()">确认</button>
-		</br> 
+		
 	</div>
 		 
 </div>   
@@ -162,35 +165,13 @@
 <script   type="text/javascript">  
 $(function () {
 	$('#userInformation_5').addClass("active"); 
-	var data=getCategorylist();
-	var str=""
-	for(var i in data['data']){
-	 	if(data['data'][i]['parentid']==data['data'][i]['id']  ){
-	 		str+='<li class="catalog-li"><span>'+data['data'][i]['name']+'  </span><ul>';
-	 			for(var j in data['data']){
-	 				if(data['data'][j]['parentid']==data['data'][i]['id']  && data['data'][j]['id']!=data['data'][i]['id']){
-	 					str+='<li><span>'+data['data'][j]['name']+'</span>';
-	 							for(var k in data['data']){
-	 								if(data['data'][k]['parentid']==data['data'][j]['id']  && data['data'][k]['id']!=data['data'][j]['id'])
-	 								str+='<a  data-id="'+data['data'][k]['id']+'" onclick="addCatelog(this)">'+data['data'][k]['name']+'</a>'; 
-	 							}  
-							'</li>'; 
-	 				}  
-	 			}
-	 		str+='</ul></li>'
-	 	} 
-	} 
-	$('.catalog ul').append(str); 
-	domain();
+ 	domain();
 	 
 });
 //向上找二级和一级父级
 function  findParents(data,id){
-	var lev2=_.where(data,{"id":id})
-	console.log(lev2)
-	var lev1=_.where(data,{"id":lev2[0]['parentid']})
-	console.log(lev2)
-	console.log(lev1)
+	var lev2=_.where(data,{"id":id}) 
+	var lev1=_.where(data,{"id":lev2[0]['parentid']}) 
 	var result={
 		"lev1":lev1,
 		"lev2":lev2 
@@ -240,62 +221,71 @@ function domain(){
 	//显示所属领域 
 	var usercategorys= getUserCategorylist(); 
 	var arr=_.groupBy(usercategorys['data'],'parentid');
-	var tempArr=_.values(arr) 
-	console.log(tempArr) 
+	var tempArr=_.values(arr)  
 	var str="";
-	for(var i in tempArr){
-			console.log(tempArr[i][0]['parentid'])
+	for(var i in tempArr){ 
 		var parents=findParents(data['data'],tempArr[i][0]['parentid']);
 		str+='<li><span>'+parents['lev1'][0]['name']+'</span></br>'+parents['lev2'][0]['name']+':';
+		str+="<div style='display:inline-block' >";
 			for(var j in tempArr[i]){
-				str+='<span style="padding:0 4px;color:#e8594b">'+tempArr[i][j]['name']+'</span>';
+				str+='<span class="categoryItem" data-id="'+tempArr[i][j]['id']+'" style="padding:0 4px;color:#e8594b">'+tempArr[i][j]['name']+'<i class="icon icon-remove" onclick="removeCatalog(this)" style="color:#ffdad6;cursor:pointer"></i></span>';
 			}
-		str+='</li>';
+		str+='</div></li>';
 	}
-	$('.myDomain').empty().append(str);
-
-	var selectedCatalogStr=""
-	for(var i in usercategorys['data']){
-		selectedCatalogStr+='<li data-id="'+usercategorys['data'][i]['id']+'">'+usercategorys['data'][i]['name']+'<i class="icon icon-remove"   onclick="removeCatalog(this)" style="cursor:pointer"></i></li>'
-
-	}
-	$('.selectedCatalog ul').empty().append(selectedCatalogStr)
-
+	$('.myDomain').empty().append(str); 
+	  
 } 
 // 添加目录选择项目
-function addCatelog(e){
-	var arr=$('.selectedCatalog li'); 
-	var cataLogArr=[];
+
+$('.categorys-sons>ul a').click(function(){
+	var arr=$('.categoryItem'); 
+	var cataLogArr=[]; 
 	for(var i=0;i<arr.length;i++){ 
 		cataLogArr.push($(arr[i]).attr('data-id'))
 	}  
-	if(!($.inArray($(e).attr('data-id'), cataLogArr) >= 0)){
-		var id=$(e).attr('data-id');
-		var name=$(e).html();
-		console.log(id)
-		$('.selectedCatalog ul').append('<li data-id="'+id+'">'+name+'<i class="icon icon-remove"   onclick="removeCatalog(this)" style="cursor:pointer"></i></li>') 
+	
+	if(!($.inArray($(this).attr('data-id'), cataLogArr) >= 0)){
+		var id=$(this).attr('data-id');
+		var name=$(this).html();  
+		cataLogArr.push(id)
+		var params={
+			//"id":parseInt(sessionStorage.customerId),
+			"cids":cataLogArr.join()
+		}
+		console.log(params);
+		$.ajax({
+			type: "put",
+			async: false,
+			url: "/user", 
+			contentType:"application/json", 
+			data:JSON.stringify(params), 
+			dataType:'json',
+			success: function(data){ 
+	 			console.log(data); 
+	 			domain()
+			},
+			error: function(){
+				alert('fail'); 
+			}
+		}); 
+ 
 	}else{
 		alert('已经添加');
 	}
-	
-} 
-//移除目录选项
-function removeCatalog(e){ 
-	$(e).parent().remove();
-}
 
-function addDomain(){
-	var arr=$('.selectedCatalog li') ;  
-	var cataLogArr="";
-	for(var i=0;i<arr.length;i++){
-		cataLogArr += cataLogArr=="" ?  $(arr[i]).attr('data-id') : ","+$(arr[i]).attr('data-id');
-		//kind.push(parseInt($(arr[i]).attr('id'))); 
+})  
+//移除目录选项 
+function removeCatalog(e){  
+	$(e).parent().remove();
+	var arr=$('.categoryItem'); 
+	var cataLogArr=[]; 
+	for(var i=0;i<arr.length;i++){ 
+		cataLogArr.push($(arr[i]).attr('data-id'))
 	}  
-	params={
+	var params={
 		//"id":parseInt(sessionStorage.customerId),
-		"cids":cataLogArr
-	}
-	console.log(params);
+		"cids":cataLogArr.join()
+	} 
 	$.ajax({
 		type: "put",
 		async: false,
@@ -303,16 +293,16 @@ function addDomain(){
 		contentType:"application/json", 
 		data:JSON.stringify(params), 
 		dataType:'json',
-		success: function(data){ 
- 			console.log(data);
-			domain();
+		success: function(data){  
+ 			domain()
 		},
 		error: function(){
 			alert('fail'); 
 		}
 	}); 
-	$('.selectedCatalog ul').empty(); 
-}
+ 
+} 
+
 
 </script> 
 </body>

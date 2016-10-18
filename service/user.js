@@ -1,5 +1,6 @@
 var httpUtil=require('../utils/http.js')
  var async= require('async')
+ var appConfig=require('../appConfig.js');
 exports.login = function (req, res, next) {  
     res.render('login');
 
@@ -10,8 +11,7 @@ exports.logout = function (req, res, next) {
     res.locals.session=""; 
     return res.redirect("/");
 }; 
-exports.create = function (req, res, next) {   
-    
+exports.create = function (req, res, next) {    
     async.waterfall([  
         function(callback) {
             var params = {
@@ -57,12 +57,25 @@ exports.getUserInfo = function (req, res, next) {
         }  
     })    
 }
+exports.getUserById = function (req, res, next) {    
+    var url=req.originalUrl.replace(appConfig.config.proxy.replace,"") ;  
+    var options={
+        "path":url
+    } 
+    httpUtil.get(options,function(result,err){  
+        if(err){
+            res.send("statusCode is:"+err);
+        }else{
+            res.send(result);
+        }  
+    })    
+}
 exports.changepwd = function (req, res, next) {  
     var params={
         'email':req.body.email,
         'password':req.body.password, 
         'orignalPassword':req.body.orignalPassword, 
-    }; 
+    };  
     var options={
         "path":"/changepwd"
     }
@@ -76,6 +89,31 @@ exports.changepwd = function (req, res, next) {
     })
 
 };
+exports.changeStatus = function (req, res, next) {  
+    var params={   
+        'email': req.body.email ,
+        "status":req.body.status  
+    } 
+    console.log(params);
+    var options={
+        "path":"/login"
+    }
+    httpUtil.put(params,options,function(result,err){
+        if(err){
+            res.send("statusCode is:"+err);
+        }else{
+            req.session.user=result;
+            console.log(res.locals.session) 
+            res.send(result);
+        } 
+    })
+ 
+};
+
+
+
+
+
 exports.modify = function (req, res, next) {  
     var params={  
         "id":req.session.user.id,

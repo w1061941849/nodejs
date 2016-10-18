@@ -14,7 +14,17 @@ header .search a,header .btn,.nav-head-items>li:first-child{
 .categorys {  
 	 height: 400px !important;
 }
-.categorys>li>ul span,header #mhall{
+.categorys>li>ul span,header #mhall,.categorys-sons>ul a:hover {
+	color: #02cf96 !important;
+}
+
+.drop-meanu>li>span>a{
+	color: #02cf96 !important;
+}
+.hotNavItems a:hover{
+	background-color: #02cf96 !important;
+}
+.recommend-block li>a:hover{
 	color: #02cf96 !important;
 }
 /**重置颜色高度 end**/
@@ -89,7 +99,7 @@ section>h2{
 					<img src="<%= results['list11']['data'][i]['image']%>" > 
 		 		<%}%> 
 			 <%}%>
-			<ul class="list">
+			<ul class="list"  >
 				<%for(var i in results['list4']['data']){%>
 					<li><span>￥<%= results['list4']['data'][i]['description']%></span><a href="<%= results['list4']['data'][i]['url']%>"><%= results['list4']['data'][i]['title']%></a></li>
 				<%}%> 
@@ -119,7 +129,7 @@ section>h2{
 						<img src="<%= results['list11']['data'][i]['image']%>" > 
 			 		<%}%> 
 			 <%}%> 
-			<ul class="list">
+			<ul class="list"  >
 				<%for(var i in results['list6']['data']){%>
 					<li><span>￥<%= results['list6']['data'][i]['description']%></span><a   href="<%= results['list6']['data'][i]['url']%>" ><%= results['list6']['data'][i]['title']%></a></li>
 				<%}%> 

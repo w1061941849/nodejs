@@ -49,11 +49,13 @@
 .recommends .pic img{
 	width:240px;
 	height:150px;
+	opacity: 0.8;
 }
 .recommends .pic>p{
 	position: absolute;
 	display: none;
 	width: 100%;
+	text-align: center;
 	color:white;
 	bottom: 0px;
 	padding: 10px 0;
@@ -61,6 +63,9 @@
 }
 .recommends .pic:hover p{
 	display: block;
+}
+.recommends .pic:hover img{
+	opacity: 1;
 }
 .model{
 	position:absolute;top:0px;
@@ -123,10 +128,11 @@
 		   <dd><%- (results['project']['description'] ? results['project']['description'] : "无")%></dd></br></br>
 		</dl>
 		<div style="text-align:center">
-			<%if(results['project']['status']==1){%>
-
+			<%if(results['project']['status']==1){%> 
 				<%if(session.id){%>
-					<%if(results['bids']['data'].length>0 ){%> 
+					<%if(results['owner']['id']==session.id) {%>
+						<button  class="btn" disabled>自己的项目</a></button>
+					<%}else if(results['bids']['data'].length>0 ){%> 
 						<%var flag=false%>
 						<% for(var i in results['bids']['data']){%> 
 							<%if(results['bids']['data'][i]['userid']==session.id){%>
@@ -142,11 +148,7 @@
 					<%}%>  
 				<%}else{%>
 					<button  class="btn"    disabled> 未登录</button>
-				<%}%>
-				
-
-
-				
+				<%}%>  
 			<%}else if(results['project']['status']==2){%>
 				<button  class="btn"    disabled> 进行中</button>
 			<%}else if(results['project']['status']==3){%>
@@ -189,6 +191,7 @@
 <% include footer.html %>
 </body> 
 <% include commonScript.html %>
+<script type="text/javascript" src="/js/common.js"></script> 
 <script>  
 $('.projectDetail .btn,.model .btn').click(function(){   
 	$('.model').slideToggle(200) 

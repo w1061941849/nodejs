@@ -3,8 +3,7 @@ var async= require('async');
 var appConfig=require('../appConfig.js');
 var URL = require('url');
 exports.showHtml = function (req, res, next) {    
-     var url=req.originalUrl;
-    console.log(url)
+     var url=req.originalUrl; 
 	var resultData={};  
 	var cid=req.query.cid ? req.query.cid : ""
 	var ocid=req.query.ocid ? req.query.ocid : ""
@@ -20,6 +19,7 @@ exports.showHtml = function (req, res, next) {
 		            done(err, null);
 		        }else{ 
 		        	resultData= result;
+		        	
 		            done(null, result);
 		        }  
 		    }) 
@@ -51,10 +51,23 @@ exports.showHtml = function (req, res, next) {
 		    })  
 	    } , 
 	    function (onearg, done) {   
+	    	 var options={
+		        "path":"/27/recommenditemlist"
+		    }  
+		    httpUtil.get(options,function(result,err){  
+		        if(err){
+		            done(err, null);
+		        }else{   
+		        	resultData['list27']=result; 
+		            done(null, onearg);
+		        }  
+		    })  
+	    } , 
+	    function (onearg, done) {   
 	    	var arr=[]; 
 	    	async.each(onearg['data'], function(obj, callback) {  
 			    arr.push(function(callback) {
-						getUserCategorys(obj,callback)
+						getUserTags(obj,callback)
 					}) 
 			}, function(err) { 
 			     
@@ -62,7 +75,7 @@ exports.showHtml = function (req, res, next) {
 	    	async.series(arr, 
 			function(err, results) { 
 				for(var i in resultData['data']){
-					resultData['data'][i]['categorys']=results[i]
+					resultData['data'][i]['tags']=results[i]
 				}
 			    done(err, resultData) 
 			}); 
@@ -82,12 +95,13 @@ exports.showHtml = function (req, res, next) {
     	resultData['activeCid']=cid;    
     	resultData['hasSonCategory']=hasSonCategory;    
     	resultData['parentCategory']=parentCategory;    
-    	console.log(resultData)
+    	//console.log(resultData)
+    	console.log(resultData['data'][1])
     	res.render('userlist',{'results':resultData}) 	
     });   
 }; 
-function getUserCategorys(params,callback){
-	var path=onearg['tags'].replace(appConfig.config.proxy.replace,"");
+function getUserTags(params,callback){
+	var path=params['tags'].replace(appConfig.config.proxy.replace,"");
     var options={
         "path":path
     }  

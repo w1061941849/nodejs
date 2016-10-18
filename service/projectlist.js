@@ -1,6 +1,7 @@
 var httpUtil=require('../utils/http.js')
 var async= require('async');
 var appConfig=require('../appConfig.js');
+var appConfig=require('../appConfig.js');
 var URL = require('url');
 exports.showHtml = function (req, res, next) {    
     var url=req.originalUrl;
@@ -93,7 +94,8 @@ exports.showHtml = function (req, res, next) {
     	//处理时间格式
     	for(var i in resultData['data']){
     		resultData['data'][i]['publishDate']=dateType(resultData['data'][i]['publishDate'])
-    	} 
+    		resultData['data'][i]['bonus']=resultData['data'][i]['bonus'].formatMoney(0)	
+    	}  
     	res.render('projectlist',{'results':resultData}) 	
     }); 
  

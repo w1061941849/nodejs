@@ -4,6 +4,9 @@ body *{
 } 
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td 
 { margin:0; padding:0;border:0px; }  
+a{
+	cursor: pointer;
+}
 a,span{
 	font-size: 14px;
 	text-decoration:none;
@@ -117,45 +120,44 @@ header .nav-head-items>li>a{
 .nav-head-items .afterLogin:hover ul{
 	display: block;
 }
+.vip{
+	width:22px;height:22px;position:relative;top:8px;display:inline-block;
+}
 .vip1{ 
-	right: -10px;
-    bottom: 0px;
-    background: url('/images/common/vip.png') no-repeat -111px -26px;
+	right: -10px; 
+    background: url('/images/common/vip.png') no-repeat -111px -24px;
 }
 .vip2{ 
-    right: -10px;
-    bottom: 0px;
-    background: url('/images/common/vip.png') no-repeat -90px -26px;
-	
+    right: -10px; 
+    background: url('/images/common/vip.png') no-repeat -91px -24px; 
 }
 .vip3{ 
-    right: -10px;
-    bottom: 0px;
-    background: url('/images/common/vip.png') no-repeat -180px -26px;
-	
-}
+    right: -10px; 
+    background: url('/images/common/vip.png') no-repeat -178px -24px; 
 
+}
 .vip1_de{ 
 	right: -10px;
     bottom: 0px;
-    background: url('/images/common/vip.png') no-repeat -112px -25px;
+    background: url('/images/common/vip.png') no-repeat 0px 0px;
 }
 .vip2_de{ 
     right: -10px;
     bottom: 0px;
-    background: url('/images/common/vip.png') no-repeat -92px -25px;
+    background: url('/images/common/vip.png') no-repeat -46px 0px;
 	
 }
 .vip3_de{ 
     right: -10px;
     bottom: 0px;
-    background: url('/images/common/vip.png') no-repeat -180px -26px;
+    background: url('/images/common/vip.png') no-repeat -132px 0px;
 	
 }
 /**header   end**/ 
 /**category**/ 
 .categorys{
-  	height:550px;width:210px;
+  	height:400px;
+  	width:210px;
   	background-color:rgba(0,0,0,0.8);
   	float: left;
   	z-index: 100;
@@ -207,6 +209,9 @@ header .nav-head-items>li>a{
 	background-color: white;
 	color:#999;
 }
+.categorys-sons>ul a:hover{
+	color:#e8594b !important:;
+}
 .categorys>li:hover .drop-meanu{ 
 	display: block;
 	position:absolute;top:0px;
@@ -218,7 +223,7 @@ header .nav-head-items>li>a{
 	display:block;
 	float: left;
 	width:590px;
-	height:400px; 
+	height:360px; 
 	margin-top:20px;
 	background-color:white; 
 	border-radius: 8px;
@@ -233,17 +238,19 @@ header .nav-head-items>li>a{
  	border-bottom: 1px solid #e0e0e0;
 }
 .recommend-block img{
-	width:230px;height:350px;  
+	width:200px;height:310px;  
 }
 
 .recommend-block .list{
 	display: inline-block;
 	vertical-align: top;
 	padding:20px 0 0 20px;
+	width:320px;
 } 
 .recommend-block .list li{
 	display: block;
-	padding:4px 0; 
+	padding:10px 0;  
+
 } 
 .recommend-block .list>li>span{
 	color:#e8594b;
@@ -255,6 +262,8 @@ header .nav-head-items>li>a{
 	color:#666666;
 	display: inline-block; 
 	font-size: 14px;
+	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+	width:200px;
 }
 /**recommend end**/ 
 /**hotNavigation **/
@@ -276,7 +285,8 @@ header .nav-head-items>li>a{
  	vertical-align: top;
  	display: inline-block;
  	margin: 40px 0 0 20px;
- 	font-weight: 800
+ 	font-weight: 800;
+ 	font-size: 16px;
  }
 .hotNavigation .hotNavItems{
 	padding:10px 30px;
@@ -288,6 +298,10 @@ header .nav-head-items>li>a{
 	border:1px solid #e0e0e0;
 	color:#666;
 	font-size: 12px;
+}
+.hotNavigation .hotNavItems>a:hover{
+	background-color: #f68a42;
+	color:white;
 }
 /**hotNavigation end**/
 
@@ -408,3 +422,18 @@ width: 100%;
 	display: block;
 }
 /*********************************************************/
+
+
+/****滚轴****/
+.cst-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+.cst-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 10px; 
+    background-color: rgba(0,0,0,.3); 
+}
+.cst-scrollbar::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+/****滚轴end****/

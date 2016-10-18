@@ -2,6 +2,7 @@
 <html >
 <head> 
 <% include commonHead.html %> 
+<link href="/stylesheets/animate.min.css" rel="stylesheet"/>
 <title>项目大厅</title>  
 <style>  
 .categorys{
@@ -38,10 +39,16 @@
 .fliter ul>li>a{
 	color:#999999;
 	font-size: 14px;display: inline-block;
+	padding:0 2px;
 	cursor: pointer;
 }
-.fliter  .active {
-	color:#e8594b;
+.fliter ul>li>a:hover{ 
+    background-color: #e8594b;
+    color: white;
+}
+.fliter  .active { 
+    background-color: #e8594b;
+    color: white;
 }
 .order{
 	padding:14px;
@@ -52,33 +59,36 @@
 	position: relative;
 	float: left;
 	border:1px solid #e0e0e0;
-	background-color:rgb(244, 244, 244);
-	padding: 4px;
+	background-color:rgb(244, 244, 244); 
 	color:#666 !important;
 	font-size: 14px;
-	cursor: pointer;
-	padding: 4px 14px;
+	cursor: pointer; 
 }
 .order a{
-	
+	display: inline-block;
+    padding:6px 14px;
 }
 .order i{
 	position: absolute; 
-	right:2px;
-	top:2px;
+	right:0px;
+	display: none;
+	top: 8px;
 
 }
-.order .active{
-	color:#e8594b !important;
-}
+.order .active{ 
+	display: block;
+	background-color: white;
+} 
 .project-list{
 	background-color: white;
 	border-radius: 8px;
+	overflow: hidden;
     border: 1px solid rgba(0,0,0,.14);
     box-shadow: 0 3px 8px -6px rgba(0,0,0,.1); 
 	
 }
-.project-list>.project-detail{
+.project-list>.project-detail{ 
+	background-color: white;
 	padding:20px;
 	border-bottom: 1px solid #e0e0e0;
 	position: relative;
@@ -106,9 +116,9 @@
 	box-shadow: 0 0 38px rgba(0,0,0,.08) inset;  
     -webkit-transition: all .15s ease;
     transition: all .15s ease;
-}
+} 
 </style>  
-</head>
+</head> 
 <body style="overflow-X:hidden; background:#f5f5f5" >   
 <% include header.html %> 
 <div class="w">
@@ -172,13 +182,13 @@
 				<li id="fliter3_0"><a  data-obderby="0">综合</a></li>
 				<li id="fliter3_1">
 					<a  data-obderby="1">发布时间</a>
-					<i id="i_1" class="icon-angle-up" style=""></i>
-					<i id="i_2" class="icon-angle-down" style="top:12px"></i>
+					<i id="i_1" class=" icon-arrow-up"  ></i>
+					<i id="i_2" class=" icon-arrow-down"  ></i>
 				</li>
 				<li id="fliter3_2">
 					<a  data-obderby="2">赏金</a> 
-					<i id="i_1"  class="icon-angle-up" style=""> </i>
-					<i id="i_2" class="icon-angle-down" style="top:12px"></i>
+					<i id="i_1"  class=" icon-arrow-up"  > </i>
+					<i id="i_2" class=" icon-arrow-down"  ></i>
 				</li> 
 				<div style="clear:both"></div>
 			</ul> 
@@ -204,7 +214,7 @@
 					</li>
 					<li>
 						<i class="icon-money" style="color:#fca75b"></i><span class="span1">赏金：</span>
-						<span style="color:#fca75b"><%= results['data'][i]['bonus']%></span> 
+						<span style="color:#fca75b"><%- results['data'][i]['bonus']%>元</span> 
 					</li> 
 					<li>
 						<i class="icon-map-marker" style="color:#fca75b"></i><span class="span1">所在地：</span>
@@ -246,8 +256,9 @@
 <% include footer.html %>
 <% include commonScript.html %> 
 <script   type="text/javascript">  
+
 $(function(){       
-	$('#fliter3_'+(getUrlParameter('orderby') ? getUrlParameter('orderby') : "0")).find('a').addClass('active'); 
+	$('#fliter3_'+(getUrlParameter('orderby') ? getUrlParameter('orderby') : "0")).addClass('active'); 
 	if(getUrlParameter('orderby')!=0){  
 		$('#fliter3_'+(getUrlParameter('orderby') ? getUrlParameter('orderby') : "0")).find('#i_'+getUrlParameter('desc')).addClass('active'); 
 		 
@@ -264,7 +275,24 @@ $(function(){
 		prev_num: $('.project-list').attr('data-prevnum'), 
 	}
 	$('#turnPage').myUtils('turnPage',turnPageData,changePage) 
+	$('.project-detail').addClass('animated')    
 })  
+//鼠标滚动效果
+var windowHeight=$(window).height();//是文档窗口高度
+$(window).scroll(function (){
+	var sTop = $(window).scrollTop(); 
+	var mTopArr = $('.project-detail')
+	for(var i in mTopArr){
+		//console.log(mTopArr[i].offsetTop-sTop)
+		if((mTopArr[i].offsetTop-sTop)<$(window).height() && $(window).height()-(mTopArr[i].offsetTop-sTop)<150  ){
+	 
+			$(mTopArr[i]).addClass('bounceInUp')
+
+		} 
+	}  
+
+})
+
 //行业筛选
 $('.fliter1>ul a').click(function(){  
 	var cid=$(this).attr("data-value");

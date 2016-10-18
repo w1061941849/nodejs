@@ -1,145 +1,153 @@
 <!DOCTYPE html>
 <html>
 <head> 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-<link href="/stylesheets/font-awesome.css" rel="stylesheet"/> 
-<link rel="shortcut icon" href="/images/common/favicon.ico" >    	
-<title>登录</title>
- 
-  
-<style>  
+<% include commonHead.html %> 	
+<title>登录</title> 
+<style> 
 a{
-	color:#999999;
-	font-size:14px;
+	cursor: pointer;
+}  
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 .login,.findPassword{
-	width:400px;
-	height:400px; 
-	margin:auto; 
-	margin-top:152px;
-}
-h3{
-	
-	color:#e8594b;
+	width:350px; 
+	background-color: white;
+	margin:80px 0 0 0;
+	padding:25px;
+	float: right; 
 } 
+.title a{
+	display: inline-block;
+	font-size: 22px;
+	color:#999999;
+	border-bottom: 2px solid #999999;
+	padding:8px 0;
+	width:150px;
+	text-align: center; 
+}
 .login button,.findPassword button{
-	width:370px;
+	width:100%;
 	display:block;
 	background-color:#e8594b;
-	color:white;
-	margin-top:40px;
+	color:white; 
 	font-size:20px !important;
 	height:40px;
 	border-raduis:4px;
-} 
-form{
-	margin-bottom:25px;
+}  
+
+.input-group{ 
+	position: relative;
+    display: table;
+    border-collapse: separate;
+        box-sizing: border-box;
+}
+.input-group span{
+	padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc; 
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+        display: table-cell;
+        border-collapse: separate; 
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+}
+.input-group input{ 
+	display: table-cell;
+	position: relative; 
+    float: left;
+    width: 100%;  
+    width: 100%;
+    height: 42px;
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff; 
+    border: 1px solid #ccc; 
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; 
+    word-spacing: normal; 
+    border-collapse: separate;
+    -webkit-writing-mode: horizontal-tb;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
 }
 i{ 
-	display:inline-block;
-	color:#999999;
-	font-size:18px;
-	position:relative;
-	right:20px;
-	top:-24px;
-	vertical-align: top
-} 
-
-input{
-	 border: 0;
-	outline:none;
-	margin-top:20px;
-	border-bottom:1px solid #e0e0e0;
-	padding:10px; 
-	width:370px;
-	display:inline-block;
-	color:#999999;
-	font-size:16px;   
-    background-size: 0 2px;
-    background-repeat: no-repeat;
-    background-position: bottom;
-    background-color: transparent;
-  
-}
-input:focus{
-	border-bottom:1px solid transparent;
-	background-image:linear-gradient(#e8594b,#e8594b);
-	background-size:100% 2px;
-	box-shadow:none;
-	transition-duration:0.3s;  
-}
-.input{
-	position:relative;
-}
-.label{
-	top:30px;
-	left:10px;
-	font-size:16px;
-	position:absolute;
-	color:#999999;
-}
-
-
-input:focus  +span
-{  
-
-animation:mymove 0.5s forwards; 
--webkit-animation:mymove 0.5s forwards; /*Safari and Chrome*/
-}
-
-@keyframes mymove
-{
-from {top:30px;font-size:16px;left:10px;}
-to {top:10px;font-size:12px;left:0px;color:#999999;}
-}
-
-@-webkit-keyframes mymove /*Safari and Chrome*/
-{
-from {top:30px;font-size:16px;left:10px;}
-to {top:10px;font-size:12px;left:0px;color:#999999;}
-}
+	display: block !important;
+    color: #999999;
+    font-size: 18px;
+    width: 18px !important;
+    height: 18px !important;
+	 
+}   
+ 
 </style>  
 </head>
-<body  >  
-<div > 
-	<div class="login">
-		<form > 
-			<h3>登   录</h3>
-			<div class="input">
-				
-				<input type="text" name="email" placeholder="邮箱"   class="email" id="email">
-				<!--<span class="label" >邮箱:</span> -->
-				
-				<i class="icon-envelope"></i> 
-			</div >
-			<div class="input">
-				<input type="password" name="password" placeholder="密码"  maxlength="12">
-				<!--<span class="label" >邮箱:</span> -->
-				<i class=" icon-lock" style="font-size: 24px;"></i>
-			</div>
-			<button id="loginbtn" class="btn"  type="button"  onclick="login()">登录</button> 
-		</form> 
-		<div style="margin-right:30px;">
-			<a class="pull-left" id="forget">忘记密码?</a> <a href="./regist.html" class="pull-right">立即注册</a>
+<body   >  
+<header style="border:0px;">
+	<div class="w">
+		<div class="logo">
+			<a href="/"><img src="/images/common/index_logo.png"> </a>
 		</div>
-	</div> 
-	
-	
-	
-	
-	<div class="findPassword" style="display:none;">
-		<form > 
-			<h1>找回密码</h1>
-			<div class="input">
-				<input type="text" name="email" placeholder="邮箱"><i class="icon-envelope"></i> 
+	</div>
+</header>
+<div style=" background: url('/images/common/login_bg.png') no-repeat;height:600px;position:relative">
+	<div class="w" style="position:relative">
+		
+		<div class="login"> 
+			<div class="title" style="position:absolute;">
+				<a  href="/login" style="border-color:#e8594b;color:#e8594b">登录</a><a  href="/regist">注册</a>
+			</div>
+			</br></br></br></br>
+			<div class="input-group"> 
+				<span><i class="icon-envelope"></i> </span>
+				<input type="text" name="email" placeholder="邮箱"   class="email" id="email">  
+			</div >
+			</br> 
+			<div class="input-group"> 
+				<span><i class=" icon-lock" ></i></span>
+				<input type="password" name="password" placeholder="密码长度至少6位"  maxlength="12"> 
 			</div > 
-			<button id="findbtn" class="btn"  type="button">发送邮件</button> 
-		</form> 
-		<div class="words" style="color:red;"></div> 
-	</div>  
-</div>  
+			</br> 
+			<button id="loginbtn" class="btn"  type="button"  onclick="login()">登录</button> 
+			</br>  
+			<a   id="forget" style="float:right;color:#6797ca">忘记密码?</a>  
+			 
+		</div>  
+		<div style="clear:both;"></div>
+		<div class="findPassword"  style="display:none">  
+			<div class="title" style="position:absolute;">
+				<a    style="border-color:#e8594b;color:#e8594b; width:300px;text-align:left;">找回密码</a> 
+			</div>
+			</br></br></br></br>
+			<div class="input-group"> 
+				<span><i class="icon-envelope"></i> </span>
+				<input type="text" name="email" placeholder="邮箱">
+			</div >  
+			</br>
+			<button id="findbtn" class="btn"  type="button">发送邮件</button>  
+			<div class="words" style="color:red;"></div> 
+			</br> 
+			<a   href="/login" style="float:right;color:#6797ca">立即登录</a>  
+		</div>  
+	</div> 
+</div>   
+<% include footer.html %>
 <% include commonScript.html %> 
 <script type="text/javascript">
 
@@ -155,7 +163,7 @@ $(function(){
       document.getElementById("email").focus();
 	}  
 }); 
-$('#forget').click(function(){
+$('#forget').click(function(){ 
 	$('.login').css('display','none');
 	$('.findPassword').css('display','block');
 })
@@ -198,7 +206,22 @@ function login(){
 } 
 //window.location.href
 //发送密码找回邮件
-$('#findbtn').click(function(){
+$('#findbtn').click(function(){ 
+	$('#findbtn').attr("disabled", true);
+	var countdown = 10;   
+	var aaa=setInterval(function(){
+		if (countdown== 0) { 
+			console.log(countdown)
+				$('#findbtn').attr("disabled", false); 
+				$('#findbtn').html("重发邮件"); 
+				countdown = 10; 
+				clearInterval(aaa);
+			} else {  
+				$('#findbtn').attr("disabled", true);
+				$('#findbtn').html("重新发送(" + countdown + ")"); 
+				countdown--;  
+			}    
+	},1000)  
 	var data={
 		'recivers':$('.findPassword').find("input[name='email']").val(),
 		"folderName":"findPsw"	,
@@ -207,34 +230,20 @@ $('#findbtn').click(function(){
 	console.log(data);
 	var emailReg =  /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;//邮箱验证正则
 	if(data.recivers==""){
-		alert("邮箱不能为空");
-		return false;
-	}else if(emailReg.test(data.recivers)){  
+		alert("邮箱不能为空"); 
+	}else if(emailReg.test(data.recivers)){   
 		
 		$.ajax({
 			type: "post",
-			async: false,
-			url: "/api/v1.0/sendemail", 
+			async: true,
+			url: "/sendemail", 
 			contentType:"application/json", 
 			data:JSON.stringify(data), 
-			dataType:'json',
+			dataType:'json', 
 			success: function(data){ 
 				console.log(data);   
 				//$('.words')[0].innerHTML='邮件已发送';
-				var countdown = 60;  
-				var aaa=setInterval(function(){
-					if (countdown== 0) { 
-						console.log(countdown)
-							$('#findbtn').attr("disabled", false); 
-							$('#findbtn').html("重发邮件"); 
-							countdown = 60; 
-							clearInterval(aaa);
-						} else {  
-							$('#findbtn').attr("disabled", true); 
-							$('#findbtn').html("重新发送(" + countdown + ")"); 
-							countdown--;  
-						}    
-				},1000)  
+				
 			},
 			error: function(){
 				alert('邮件发送失败');
@@ -242,7 +251,7 @@ $('#findbtn').click(function(){
 		});   
 	}else{
 		alert("邮箱格式不正确");
-		return false;
+		 
 	} 
 });  
 

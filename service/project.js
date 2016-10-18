@@ -15,7 +15,7 @@ exports.projectDetail = function (req, res, next) {
 }
 exports.create = function (req, res, next) {   
     var params = { 
-        "userid":req.session.user.id,
+        "userid":req.body.userid ? req.body.userid : req.session.user.id,
         "name":req.body.name,
         "timespan":req.body.timespan,
         "bonus":req.body.bonus,

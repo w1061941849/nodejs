@@ -37,6 +37,21 @@ exports.delete = function (req, res, next) {
         }
     })  
 } 
+
+exports.getWorksByUserid = function (req, res, next) {   
+    var options={
+        'path':'/'+req.params.userid+"/userworks/"+req.params.page
+
+    } 
+    httpUtil.get(options,function(result,err){
+        if(err){ 
+            res.send("statusCode is:"+err);  
+        }else{  
+            res.send(result); 
+        }
+    })  
+} 
+
 exports.userworks = function (req, res, next) {   
     var options={
         'path':'/'+req.session.user.id+"/userworks/"+req.params.page

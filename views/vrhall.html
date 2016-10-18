@@ -14,7 +14,16 @@ header .search a,header .btn,.nav-head-items>li:first-child{
 .categorys,.categorys>li>ul {  
 	 height: 400px !important;
 }
-.categorys>li>ul span,header #vrhall {
+.categorys>li>ul span,header #vrhall,.categorys-sons>ul a:hover {
+	color: #46b8da !important;
+}
+.drop-meanu>li>span>a{
+	color: #46b8da !important;
+}
+.hotNavItems a:hover{
+	background-color: #46b8da !important;
+}
+.recommend-block li>a:hover{
 	color: #46b8da !important;
 }
 /**重置颜色高度 end**/
@@ -143,7 +152,7 @@ section>h2{
 	</div>
 	<div class="hotNavigation">
 		<img src="/images/common/navigation2.png">
-		<span>V R 游 戏</span>
+		<span>V R 实 拍</span>
 		<div class="hotNavItems">
 			<%for(var i in results['list19']['data']){%>
 				<a href="<%= results['list19']['data'][i]['url']%>"><%= results['list19']['data'][i]['title']%></a>
@@ -152,7 +161,7 @@ section>h2{
 	</div>
 	<div class="hotNavigation" style="margin:0px;">
 		<img src="/images/common/navigation3.png">
-		<span>V R 游 戏</span>
+		<span>V R 教 育</span>
 		<div class="hotNavItems">
 			<%for(var i in results['list21']['data']){%>
 				<a href="<%= results['list21']['data'][i]['url']%>"><%= results['list21']['data'][i]['title']%></a>
@@ -163,7 +172,7 @@ section>h2{
 	</br>
 	<div class="hotNavigation">
 		<img src="/images/common/navigation4.png">
-		<span>V R 游 戏</span>
+		<span>A R 游 戏</span>
 		<div class="hotNavItems">
 			<%for(var i in results['list22']['data']){%>
 				<a href="<%= results['list22']['data'][i]['url']%>"><%= results['list22']['data'][i]['title']%></a>
@@ -172,7 +181,7 @@ section>h2{
 	</div>
 	<div class="hotNavigation">
 		<img src="/images/common/navigation5.png">
-		<span>V R 游 戏</span>
+		<span>定 格 动 画</span>
 		<div class="hotNavItems">
 			<%for(var i in results['list23']['data']){%>
 				<a href="<%= results['list23']['data'][i]['url']%>"><%= results['list23']['data'][i]['title']%></a>
@@ -181,7 +190,7 @@ section>h2{
 	</div>
 	<div class="hotNavigation" style="margin:0px;">
 		<img src="/images/common/navigation6.png">
-		<span>V R 游 戏</span>
+		<span>三 维 动 画</span>
 		<div class="hotNavItems">
 			<%for(var i in results['list24']['data']){%>
 				<a href="<%= results['list24']['data'][i]['url']%>" ><%= results['list24']['data'][i]['title']%></a>

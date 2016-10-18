@@ -2,8 +2,10 @@
 <html >
 <head> 
 <% include commonHead.html %> 
+<link href="/stylesheets/animate.min.css" rel="stylesheet"/>
 <title>团队大厅</title>  
 <style>  
+
 .categorys{
 	display: none;
 }
@@ -38,16 +40,23 @@ header #userlist{
 .fliter ul>li>a{
 	color:#999999;
 	font-size: 14px;display: inline-block;
+	padding:0 2px;
 	cursor: pointer;
 } 
+.fliter ul>li>a:hover{
+	background-color: #e8594b;
+    color: white;
+}
 .fliter  .active {
-	color:#e8594b;
+	background-color: #e8594b;
+    color: white;
 }
 .box-list{
 	background-color: white;
 	border-radius: 8px;
     border: 1px solid rgba(0,0,0,.14);
     box-shadow: 0 3px 8px -6px rgba(0,0,0,.1); 
+    overflow: hidden;
 	
 }
 .box-list>.card-box{
@@ -55,6 +64,7 @@ header #userlist{
 	border-bottom: 1px solid #e0e0e0;
 	position: relative;
 	vertical-align: top;
+	background-color: white;
 }
 .box-list>.card-box .content{
 	display: inline-block;
@@ -69,12 +79,52 @@ header #userlist{
 .box-list>.card-box .span1{
 	font-size: 14px;
 	color:#999999;
+	padding-right:8px;
 }
 .box-list>.card-box:hover{
 	box-shadow: 0 0 38px rgba(0,0,0,.08) inset;  
     -webkit-transition: all .15s ease;
     transition: all .15s ease;
 }
+.recommend { 
+	width: 1200px;   
+	text-align: center; 
+	background-color: white;
+	border-radius: 8px;
+    border: 1px solid rgba(0,0,0,.14);
+    box-shadow: 0 3px 8px -6px rgba(0,0,0,.1); 
+    overflow: hidden;
+}
+.recommend li{
+	float: left;  
+	padding:20px 0;
+	position: relative;  
+	width: 239px; 
+	border-right: 1px solid rgba(0,0,0,.14); 
+	 
+}
+.recommend li:hover{
+	box-shadow: 0 0 38px rgba(0,0,0,.08) inset;
+    -webkit-transition: all .15s ease;
+    transition: all .15s ease;
+}
+.recommend li:hover span{
+	color:#666;
+}
+.recommend li>span{
+	color: #999;
+}
+.recommend li a{
+	display: block;
+	position: relative;  
+	vertical-align:middle;
+	text-align:center;
+} 
+.recommend li a>img{ 
+	vertical-align:middle; 
+	max-width: 200px;
+	max-height: 200px;
+}    
 </style>  
 </head>
 <body style="overflow-X:hidden; background:#f5f5f5" >   
@@ -151,20 +201,22 @@ header #userlist{
 	<div class="box-list"  data-hasnext="<%= results['has_next']%>"  data-hasprev="<%= results['has_prev']%>" data-nextnum="<%= results['next_num']%>" data-page="<%= results['page']%>" data-pages="<%= results['pages']%>" data-perpage="<%= results['per_page']%>"  data-prevnum="<%= results['prev_num']%>"> 
 		<%for( var i in results['data']){%>
 			<div class="card-box" >   
-		 		<img style="height:100px;width:100px;background-color:red;"   src="<%= results['data'][i]['imageLarge'] %>">
+		 		<img style="height:100px;width:100px; "   src="<%= results['data'][i]['imageLarge'] %>">
 		 		<div class="content">
 		 			<a class="name"   href="/userDetail?userid=<%= results['data'][i]['id']%>"><%= decodeURI(results['data'][i]['nickname']) %></a>
 		 			<%if(results['data'][i]['authenticationType'] & 1) {%>
-                        <div class="vip1" title="个人"  style="width:23px;height:23px;position:relative;top:8px;display:inline-block;"></div>
+                        <div class="vip vip1" title="个人"   ></div>
                        
-		 			<%}else if(results['data'][i]['authenticationType'] & 2){%>
-		 				<div class="vip2" title="企业" style="width:23px;height:23px;position:relative;top:8px;display:inline-block;"></div>
+		 			<%}%> 
+		 			<%if(results['data'][i]['authenticationType'] & 2){%>
+		 				<div class="vip vip2" title="企业"  ></div>
 		 			
-		 			<%}else if(results['data'][i]['authenticationType'] & 5 || results['data'][i]['authenticationType'] & 6){%>
-		 				<div class="vip3" title="交易" style="width:23px;height:23px;position:relative;top:8px;display:inline-block;"></div>
+		 			<%}%> 
+		 			<%if(results['data'][i]['authenticationType'] & 4 ){%>
+		 				<div class="vip vip3" title="交易"  ></div>
 		 			<%}%>
 		 			</br>
-		 			<span class="span1"><%= (decodeURI(results['data'][i]['nickname']) ? decodeURI(results['data'][i]['nickname']) : "未填写") %></span></br></br>
+		 			</br>
 		 			<span style="width:400px;display:inline-block">联系方式：
 			 			
 			 			<%if(results['data'][i]['phone']){%>
@@ -191,11 +243,10 @@ header #userlist{
 			 	</div> 
 		 		<div> 
 				 	<span style="font-weight:800">技能标签：</span> 
-				 	<p class="span1" style="display:inline-block">
-
-				 		<% if( results['data'][i]['categorys']['data'].length>0){%>
-							<% for(var j in results['data'][i]['categorys']['data']){%>
-								<%= results['data'][i]['categorys']['data'][j]['name']%>
+				 	<p class="span1" style="display:inline-block"> 
+				 		<% if( results['data'][i]['tags'].length>0){%>
+							<% for(var j in results['data'][i]['tags']){%>
+								<%= results['data'][i]['tags'][j]['name']%>
 							<%}%>
 				 		<%}else{%>
 							未添加
@@ -204,12 +255,8 @@ header #userlist{
 				 	</p>
 				</div>
 				<a class="btn" href="/userDetail?userid=<%= results['data'][i]['id'] %>" style="border:0px;right:40px;top:50px;position:absolute"> 更多详情 </a>
-			</div> 
-			 		
-
-		<%}%>
-
-
+			</div>  
+		<%}%> 
 		<!-- 
 		<div class="card-box" >   
 		 	<img style="height:100px;width:100px;background-color:red;">
@@ -230,6 +277,23 @@ header #userlist{
 		</div>  -->
 	</div> 
 	<div id="turnPage"></div>
+</div>
+<!--团队推荐-->
+<div class="w">
+	<h3>相关团队推荐</h3>
+	</br> 
+	<ul class="recommend">
+		<% for(var i in results['list27']['data']){%>
+			<li>
+				<span><%= results['list27']['data'][i]['title']%></span></br></br>
+				<a  href="<%= results['list27']['data'][i]['url']%>" class="pic">
+					<img src="<%= results['list27']['data'][i]['image']%>"> 
+				</a>
+			</li>
+		<%}%>
+		
+	</ul>
+	
 </div>
 <% include footer.html %>
 <% include commonScript.html %> 
@@ -258,6 +322,21 @@ $(function(){
 	}
 	$('#turnPage').myUtils('turnPage',turnPageData,changePage) 
 });
+//鼠标滚动 特效
+var windowHeight=$(window).height();//是文档窗口高度
+$(window).scroll(function (){
+	var sTop = $(window).scrollTop(); 
+	var mTopArr = $('.card-box')
+	for(var i in mTopArr){
+		//console.log(mTopArr[i].offsetTop-sTop)
+		if((mTopArr[i].offsetTop-sTop)<$(window).height() && $(window).height()-(mTopArr[i].offsetTop-sTop)<150  ){
+	 
+			$(mTopArr[i]).addClass('animated bounceInUp')
+
+		} 
+	}  
+
+})
 //翻页
 function changePage(){ 
 	var url=location.search.toString();

@@ -74,7 +74,8 @@ exports.showHtml = function (req, res, next) {
 		    }) 
 	    },
 	], function (error, result) {
-	    console.log(resultData); 
+	    resultData['project']['bonus']=resultData['project']['bonus'].formatMoney(0)
+
 	    res.render('projectDetail',{"results":resultData}) 	
 	})
 }; 

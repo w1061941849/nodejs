@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>用户管理</title>
+<link href="../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../css/font-awesome.css" rel="stylesheet"/>    
+<style> 
+ body *{
+	font-family: '微软雅黑',YaHei,tahoma,arial,"Hiragino Sans GB"; 
+	 
+} 
+.wrapper{
+	margin-top:100px;
+	margin-bottom:50px;
+} 
+.authenicationInfo{
+	display: none;
+}
+</style>  
+</head>
+<body  > 
+<div class="wrapper">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="container">
+					<div class="authenicationInfo_person  authenicationInfo"> 
+						<div class="row">
+							<div class="col-xs-12"> 
+								<span class="span">姓名：</span> <p id="name"> </p> </br></br>
+								<span class="span">身份号码：</span> <p id="identityID"></p> </br></br>
+								<div>
+									<span class="span">手持身份证正面：</span>
+									<img id="identityFrontImage" src=""   style="width:200px; "> 
+								</div>
+								</br>
+								<div>
+									<span class="span">身份证反面：</span>
+									<img id="identityBackImage" src=""   style="width:200px; "> 
+								</div></br> 
+							</div> 
+						</div>
+					</div>
+					<div class="authenicationInfo_company authenicationInfo "> 
+						<div class="row">
+							<div class="col-xs-12 ">
+								<div class="top">
+									<span>认证详情</span> 
+								</div>
+								<span  class="span">企业名称：</span> <p id="companyName" ></p> </br></br>
+								<span class="span">经营范围：</span> <p  id="businessScope"></p> </br></br>
+								<span class="span">经营执照注册码：</span> <p id="licenseID" ></p> </br></br>
+								<div>
+									<span class="span">营业执照照片：</span>
+									<img id="licenseImage" src=""   style="width:200px; "> 
+								</div>
+								</br>
+								<div>
+									<span  class="span">联系人名片：</span>
+									<img id="contactImage" src=""   style="width:200px; "> 
+								</div></br> 
+							</div> 
+						</div>
+					</div> 
+				</div>
+			</div> 
+		</div> 
+	</div>  
+</div> 
+  
+<script type="text/javascript" src="../js/jquery-2.2.3.min.js"></script> 
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>  
+<script type="text/javascript" src="../js/underscore.js"></script> 
+<script type="text/javascript" src="../config.json"></script>  
+<script type="text/javascript">
+ 
+$(function () {  
+	var url = location.search;
+	console.log(url);
+	var theRequest = {}; 
+
+    if (url.indexOf("?") != -1) {
+        var str = url.substr(1);
+        strs = str.split("&url=");
+        theRequest={
+        	"authenticationType":strs[0].split("=")[1],
+        	"url":strs[1]
+        }
+
+       /* for(var i = 0; i < strs.length; i ++) {
+            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }*/
+    }
+    console.log(theRequest) 
+    if(theRequest['authenticationType'] & 1){
+    	var personInfo=getAuthenInfo(theRequest['url']);
+		$('.authenicationInfo_person').css('display','block'); 
+	 	$('#name').html(personInfo['data'][0]['name'])
+	 	$('#identityID').html(personInfo['data'][0]['identityID'])
+	 	$('#identityBackImage').attr('src',personInfo['data'][0]['identityBackImage'])
+	 	$('#identityFrontImage').attr('src',personInfo['data'][0]['identityFrontImage']) 
+
+
+    }else if(theRequest['authenticationType'] & 2){
+    	var companyInfo=getAuthenInfo(theRequest['url']);
+    	console.log(companyInfo)
+    	$('.authenicationInfo_company').css('display','block'); 
+	 	$('#companyName').html(companyInfo['data'][0]['name']);
+	 	$('#businessScope').html(companyInfo['data'][0]['businessScope']);
+	 	$('#licenseID').html(companyInfo['data'][0]['licenseID']);
+	 	$('#licenseImage').attr('src',companyInfo['data'][0]['licenseImage']);
+	 	$('#contactImage').attr('src',companyInfo['data'][0]['contactImage']);   
+    }
+  
+});  
+function getAuthenInfo(url){
+	var temp;
+	$.ajax({
+		type:"get",   //请求方式
+		async: false,
+		url:url,    //请求的url地址
+		dataType:"json",   //返回格式为json
+		contentType:"application/json;charset=utf-8", 
+		success:function(data){
+			temp=data;
+		},
+		error:function(){
+			alert("请求出错处理")
+		}
+	})   
+	return temp;
+
+}
+</script>  
+</body>
+
+</html>

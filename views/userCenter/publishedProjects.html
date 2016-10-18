@@ -1,4 +1,4 @@
-		<!DOCTYPE html>
+<!DOCTYPE html>
 <html >
 <head> 
 <% include commonHead.html %> 
@@ -129,15 +129,15 @@ table td{
 								<td><span class="time"><%= results['data'][i]['publishDate'].split("T")[0]%></span></td> 
 								<td><span style="color:#999;"><%= results['data'][i]['bidCount']%></span></td> 
 								<%   if(results['data'][i]['status']==1){%>
-									<td class="operation"><a  href="/bidding?projectid=<%= results['data'][i]['id']%>">竞标管理</a><a onclick="toEndStatus(this)">关闭</a></td>
+									<td class="operation"><a  href="/bidding?projectid=<%= results['data'][i]['id']%>">竞标管理</a><a onclick="toEndStatus(this)"  data-status="5">关闭</a></td>
 								<%}else if(results['data'][i]['status']==2){%>
-									<td class="operation"><a href="/versions?projectid=<%= results['data'][i]['id']%>">version</a> <a href="/suggections?projectid=<%= results['data'][i]['id']%>">意见</a><a onclick="toEndStatus(this)">关闭</a></td>
+									<td class="operation"><a href="/versions?projectid=<%= results['data'][i]['id']%>">version</a> <a href="/suggections?projectid=<%= results['data'][i]['id']%>">意见</a><a onclick="toEndStatus(this)" data-status="3">关闭</a></td>
 								<%}else if(results['data'][i]['status']==3){%>
 									<td class="operation"><a href="/versions?projectid=<%= results['data'][i]['id']%>">version</a> <a href="/suggections?projectid=<%= results['data'][i]['id']%>">意见</a></td>
 								<%} else if(results['data'][i]['status']==4){%>
 									<td class="operation"><a onclick="toEndStatus(this)">关闭</a></td>
 								<%}else if(results['data'][i]['status']==5){%>
-									<td class="operation"><a href="/versions?projectid=<%= results['data'][i]['id']%>">version</a> <a href="/suggections?projectid=<%= results['data'][i]['id']%>">意见</a></td>
+									<td class="operation">中止</td>
 								<%}else if(results['data'][i]['status']==6){%>
 									<td class="operation">未通过</td>
 								<%} %> 
@@ -160,7 +160,7 @@ $(function(){
 	var turnPageData={
 		has_next: $('tbody').attr('data-hasnext'),
 		has_prev: $('tbody').attr('data-hasprev'),
-		next_num: $('.box-list').attr('data-nextnum'),
+		next_num: $('tbody').attr('data-nextnum'),
 		page: $('tbody').attr('data-page'),
 		pages: $('tbody').attr('data-pages'),
 		per_page: $('tbody').attr('data-perpage'),
@@ -192,7 +192,7 @@ function toEndStatus(e){
 	var $_e=$(e);
 	var params={
 		'id':parseInt($(e).parent().parent().attr('id')), 
-		'status':5
+		'status':parseInt($_e.attr('data-status'))
 	} 
 	console.log(params);
 	var r=confirm("确定结束此任务包？");   
@@ -206,7 +206,7 @@ function toEndStatus(e){
 			dataType:'json',
 			success: function(data){  
 				$_e.css('display','none');
-				$_e.parent().parent().find('.status').html('中止');
+				$_e.parent().parent().find('.status').html('关闭');
 				$_e.parent().parent().find('.status').css('color','#999');
 			},
 			error: function(){
