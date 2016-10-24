@@ -388,7 +388,7 @@ $('.search a').click(function(){
 	console.log(keyword);
 	var url=location.search.toString();
 	url=replaceParamVal(url,'keyword',keyword)  
-	url='/userlist/1'+url;
+	url='/userlist/1'+'?keyword='+keyword;
 	location = url 
 }) 
 

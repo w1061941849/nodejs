@@ -343,6 +343,8 @@ footer {
 	border-top: 1px solid #e0e0e0;
 	margin-top: 50px;
 	text-align: center;
+	background:white;
+	padding:20px 0px;
 }
 footer a,footer span{
 	color:#999999;
@@ -355,7 +357,7 @@ footer ul {
 }
 footer ul li{
 	display: inline-block;
-	padding: 0 10px;
+	padding: 0 20px;
 }
 /**footer  end**/
 /*********************************************************/

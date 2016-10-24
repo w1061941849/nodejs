@@ -26,7 +26,7 @@ var userlist=require('./service/userlist.js')
 var userDetail=require('./service/userDetail.js') 
 var workDetail=require('./service/workDetail.js') 
 
-
+var userhall=require('./service/userhall.js') 
 
 //个人中心
 var publishedProjects =require('./service/userCenter/publishedProjects.js') 
@@ -86,8 +86,11 @@ app.get("*",function(req,res,next){
     }
     next();
 })  
+
 /*--------------大厅---start---------*/   
 app.get('/',index.showHtml); 
+app.get('/userhall',userhall.showHtml); 
+
 app.get('/vrhall',vrhall.showHtml);  
 app.get('/mhall',mhall.showHtml); 
 app.get('/userlist/:page',userlist.showHtml);  

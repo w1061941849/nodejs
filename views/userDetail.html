@@ -77,16 +77,17 @@
 	font-size: 14px;
 	margin-right: 10px;
 }
-.projectlist li{
-	display: block;
-	padding:10px;
+.projectlist>a{
+	display:block;
+	width:600px;
+	float: left;
+	padding:20px 0px;
+	color:#999999;
 
-} 
-.projectlist li a{
-	cursor: pointer;
-	color:#666;
-	font-size: 16px;
-
+}
+.projectlist>a>i{
+	display: inline-block;
+	padding:0px 30px;
 }
 .recommend { 
 	width: 1200px;   
@@ -197,27 +198,35 @@
 					<p><%= results['works']['data'][i]['title']%></p> 
 				</a>
 			</div> 
-		<%}%>
-		
-
+		<%}%> 
 	</div>
 </div>
 <!--参与的项目-->
 <h2 class="title" >参与的项目</h2>
 <div class="w" style="text-align:center">  
-	<ul class="projectlist"> 
-		<%for( var i in results['participateProjects']['data']){%> 
-			<li><a href="/projectDetail?projectid=<%= results['participateProjects']['data'][i]['project']['id']%>"><%= results['participateProjects']['data'][i]['project']['name']%></a></li>
+	<div class="projectlist">    
+		<%for( var i in results['participateProjects']['data']){%>  
+			<% if(i%2 == 0){%>
+				<a href="/projectDetail?projectid=<%= results['participateProjects']['data'][i]['project']['id']%>" class="text-right"><%= results['participateProjects']['data'][i]['project']['name']%> <i class=" icon-circle"></i></a> 
+			<%}else{%>
+				<a  href="/projectDetail?projectid=<%= results['participateProjects']['data'][i]['project']['id']%>" class="text-left"><i class=" icon-circle"></i><%= results['participateProjects']['data'][i]['project']['name']%>  </a>
+			<%}%> 
 		<%}%>
-	</ul>
+		<div class="clear"></div>
+	</div>
 </div>
 <!--发布的项目-->
 <h2 class="title" >发布的项目</h2>
 <div class="w"  style="text-align:center">  
 	<ul class="projectlist" >  
-		<%for( var i in results['publishedProjects']['data']){%>
-			<li><a href="/projectDetail?projectid=<%=results['publishedProjects']['data'][i]['id']%>"><%= results['publishedProjects']['data'][i]['name']%></a></li>
-		<%}%> 
+		<%for( var i in results['publishedProjects']['data']){%>  
+			<% if(i%2 == 0){%>
+				<a href="/projectDetail?projectid=<%= results['publishedProjects']['data'][i]['id']%>" class="text-right"><%= results['publishedProjects']['data'][i]['name']%> <i class=" icon-circle"></i></a> 
+			<%}else{%>
+				<a  href="/projectDetail?projectid=<%= results['publishedProjects']['data'][i]['id']%>" class="text-left"><i class=" icon-circle"></i><%= results['publishedProjects']['data'][i]['name']%>  </a>
+			<%}%> 
+		<%}%>
+		<div class="clear"></div> 
 	</ul>
 </div>
 <!--相关团队推荐-->

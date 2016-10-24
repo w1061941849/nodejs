@@ -3,8 +3,8 @@ var URL = require('url');
 exports.addVersion = function (req, res, next) {   
 	var params = {
       "projectid":req.body.projectid, 
-      "title":req.body.projectid, 
-      "description":req.body.projectid, 
+      "title":req.body.title, 
+      "description":req.body.description, 
       "userid":req.session.user.id,
       'image':req.body.image
    
