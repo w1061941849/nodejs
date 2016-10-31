@@ -24,6 +24,7 @@
 .myWork>.works{
 	margin-top:20px;
 	margin-bottom:20px;
+	margin-right:-10px; 
 	width:100%;
 	position: relative;
 } 
@@ -43,8 +44,9 @@
 	background-color:white;
 	box-shadow:0px 0px 4px #e0e0e0;
 	margin-top:20px;
-	float: left; 
-	width: 214px;
+	float: left;
+	margin:10px; 
+	width: 270px;
 }
 .workInfo p{
 	font-size: 12px;
@@ -91,7 +93,8 @@
 			<div class="works" data-hasnext="<%= results['works']['has_next']%>"  data-hasprev="<%= results['works']['has_prev']%>" data-nextnum="<%= results['works']['next_num']%>" data-page="<%= results['works']['page']%>" data-pages="<%= results['works']['pages']%>" data-perpage="<%= results['works']['per_page']%>"  data-prevnum="<%= results['works']['prev_num']%>">   
 					<%for(var i in results['works']['data']){%>
 						<div class="workInfo"  id="<%= results['works']['data'][i]['workid']%>">
-							<img src="<%= results['works']['data'][i]['image']%>">
+							<a  data-toggle="modal" data-target=".bs-example-modal-lg">
+									<img src="<%= results['works']['data'][i]['image']%>"></a>
 							<div class="detail">
 								<span class="workName">作品名称：<%= results['works']['data'][i]['title']%></span> 
 								<div class="workType">作品类型：
@@ -131,6 +134,13 @@
 		</div> 
     </div> 	
 </div>  
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="text-align:center;">
+		<button type="button" class="close" data-dismiss="modal">
+				<span aria-hidden="true" style="color:white;font-size:50px;">&times;</span>
+		</button>
+  		<img src="http://10.0.0.44:8080/static/Uploads/user/74/work/id-front-small.jpg" style="padding-top:200px;max-width:100%;">
+</div>
 <% include commonScript.html %> 
 <script type="text/javascript" src="/js/masonry-docs.min.js"></script>     
 <script   type="text/javascript">  
@@ -141,11 +151,10 @@ $(function () {
     $container.imagesLoaded(function() {
         $container.masonry({
                 itemSelector: '.workInfo',
-                gutter: 4,
+                gutter: 3,
                 isAnimated: true,
             });
-    }); 
-
+    });  
     //翻页
     var turnPageData={
 		has_next: $('.works').attr('data-hasnext'),
@@ -161,7 +170,7 @@ $(function () {
 
 function changePage(){ 
 	var url=location.search.toString();
-	url='/myWork/'+$(this).attr('data-pageid')+url; 
+	url='/w/'+$(this).attr('data-pageid')+url; 
 	location =url  
 }  
 //删除作品
@@ -191,6 +200,16 @@ function deleteWork(e){
 		}); 
 	} 
 } 
+
+$('.workInfo>a').click(function(){
+	var src=$(this).find('img').attr("src")
+	console.log(src)
+	$('.modal img').attr("src",src);
+})
+
+
+
+
  //日期格式转换
 function dateType(date){
 	var date=new Date(date);

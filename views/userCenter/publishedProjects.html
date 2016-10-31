@@ -112,7 +112,7 @@ table td{
 					<tbody  data-hasnext="<%= results['has_next']%>"  data-hasprev="<%= results['has_prev']%>" data-nextnum="<%= results['next_num']%>" data-page="<%= results['page']%>" data-pages="<%= results['pages']%>" data-perpage="<%= results['per_page']%>"  data-prevnum="<%= results['prev_num']%>">  
 						<%  for (var i in results['data']){%> 
 							<tr id="<%= results['data'][i]['id']%>">
-								<td><a href="/projectDetail?projectid=<%= results['data'][i]['id']%>" style="color:#333"><%= results['data'][i]['name']%></a> </td> 
+								<td><a href="/p?i=<%= results['data'][i]['id']%>" style="color:#333"><%= results['data'][i]['name']%></a> </td> 
 								<% if(results['data'][i]['status']==1){%>
 									<td class="status"> 竞标中</td>
 								<%}else if(results['data'][i]['status']==2){%>
@@ -129,11 +129,11 @@ table td{
 								<td><span class="time"><%= results['data'][i]['publishDate'].split("T")[0]%></span></td> 
 								<td><span style="color:#999;"><%= results['data'][i]['bidCount']%></span></td> 
 								<%   if(results['data'][i]['status']==1){%>
-									<td class="operation"><a  href="/bidding?projectid=<%= results['data'][i]['id']%>">竞标管理</a><a onclick="toEndStatus(this)"  data-status="5">关闭</a></td>
+									<td class="operation"><a  href="/bids?i=<%= results['data'][i]['id']%>">竞标管理</a><a onclick="toEndStatus(this)"  data-status="5">关闭</a></td>
 								<%}else if(results['data'][i]['status']==2){%>
-									<td class="operation"><a href="/versions?projectid=<%= results['data'][i]['id']%>">version</a> <a href="/suggections?projectid=<%= results['data'][i]['id']%>">意见</a><a onclick="toEndStatus(this)" data-status="3">关闭</a></td>
+									<td class="operation"><a href="/versions?i=<%= results['data'][i]['id']%>">version</a> <a href="/suggections?i=<%= results['data'][i]['id']%>">意见</a><a onclick="toEndStatus(this)" data-status="3">关闭</a></td>
 								<%}else if(results['data'][i]['status']==3){%>
-									<td class="operation"><a href="/versions?projectid=<%= results['data'][i]['id']%>">version</a> <a href="/suggections?projectid=<%= results['data'][i]['id']%>">意见</a></td>
+									<td class="operation"><a href="/versions?i=<%= results['data'][i]['id']%>">version</a> <a href="/suggections?i=<%= results['data'][i]['id']%>">意见</a></td>
 								<%} else if(results['data'][i]['status']==4){%>
 									<td class="operation"><a onclick="toEndStatus(this)">关闭</a></td>
 								<%}else if(results['data'][i]['status']==5){%>

@@ -3,7 +3,7 @@ var async= require('async');
 var appConfig=require('../appConfig.js');
 var URL = require('url');
 exports.showHtml = function (req, res, next) {    
-    var workid = URL.parse(req.url, true).query.workid; 
+    var workid = URL.parse(req.url, true).query.i; 
 	var resultData={}; 
 	async.waterfall([
 	    function (done) {

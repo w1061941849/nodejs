@@ -203,7 +203,7 @@ header #userlist{
 			<div class="card-box" >   
 		 		<img style="height:100px;width:100px; "   src="<%= results['data'][i]['imageLarge'] %>">
 		 		<div class="content">
-		 			<a class="name"   href="/userDetail?userid=<%= results['data'][i]['id']%>"><%= decodeURI(results['data'][i]['nickname']) %></a>
+		 			<a class="name"   href="/u?i=<%= results['data'][i]['id']%>"><%= decodeURI(results['data'][i]['nickname']) %></a>
 		 			<%if(results['data'][i]['authenticationType'] & 1) {%>
                         <div class="vip vip1" title="个人"   ></div>
                        
@@ -254,7 +254,7 @@ header #userlist{
 						
 				 	</p>
 				</div>
-				<a class="btn" href="/userDetail?userid=<%= results['data'][i]['id'] %>" style="border:0px;right:40px;top:50px;position:absolute"> 更多详情 </a>
+				<a class="btn" href="/u?i=<%= results['data'][i]['id'] %>" style="border:0px;right:40px;top:50px;position:absolute"> 更多详情 </a>
 			</div>  
 		<%}%> 
 		<!-- 
@@ -301,14 +301,14 @@ header #userlist{
 // //http://10.0.1.122/trade/teamhall.html?page=1&keyword=&kind=&authentype=0&orderby=0&desc=0&li1_color=0&li2_color=0&li3_color=0&cid=0&parkind=2 
 $(function(){
 	$('.drop-meanu a').each(function(){ 
-		var href=$(this).attr('href').replace("projectlist","userlist")
+		var href=$(this).attr('href').replace("p","t")
 		$(this).attr("href",href)
 	});
 	 
-	getRequest()['tag'] ?  $('.fliter1 a[data-value='+getRequest()['tag'] +']').addClass('active')  : $('.fliter1 li:first-child a').addClass('active')   
-	 console.log($('.fliter1 a[data-value='+getRequest()['tag']+']'))
-	$('#fliter2_'+(getUrlParameter('authentype') ? getUrlParameter('authentype') : "")).addClass('active');
-	$('#fliter3_'+(getUrlParameter('cid') ? getUrlParameter('cid') : "")).addClass('active');
+	getRequest()['t'] ?  $('.fliter1 a[data-value='+getRequest()['t'] +']').addClass('active')  : $('.fliter1 li:first-child a').addClass('active')   
+	 console.log($('.fliter1 a[data-value='+getRequest()['t']+']'))
+	$('#fliter2_'+(getUrlParameter('a') ? getUrlParameter('a') : "")).addClass('active');
+	$('#fliter3_'+(getUrlParameter('c') ? getUrlParameter('c') : "")).addClass('active');
 
 	console.log()
 	var turnPageData={
@@ -340,7 +340,7 @@ $(window).scroll(function (){
 //翻页
 function changePage(){ 
 	var url=location.search.toString();
-	url='/userlist/'+$(this).attr('data-pageid')+url; 
+	url='/t/'+$(this).attr('data-pageid')+url; 
 	location =url 
 	
 }  
@@ -349,10 +349,10 @@ $('.fliter1>ul a').click(function(){
 	var tag=$(this).attr("data-value");
 	var url=location.search.toString();
 	if(tag){ 
-		url=replaceParamVal(url,'tag',tag)  
-		url='/userlist/1'+url; 
+		url=replaceParamVal(url,'t',tag)  
+		url='/t/1'+url; 
 	}else{  
-		url='/userlist/1'+removeParameter(url,'tag');
+		url='/t/1'+removeParameter(url,'t');
 	} 
 	location = url 
 }) 
@@ -362,11 +362,11 @@ $('.fliter2>ul a').click(function(){
 	var url=location.search.toString(); 
 	location = url 
 	if(authentype){ 
-		url=replaceParamVal(url,'authentype',authentype) 
-		url='/userlist/1'+url;
+		url=replaceParamVal(url,'a',authentype) 
+		url='/t/1'+url;
 		location = url 
 	}else{ 
-		url='/userlist/1'+removeParameter(url,'authentype');
+		url='/t/1'+removeParameter(url,'a');
 		location = url  
 	} 
 })
@@ -375,10 +375,10 @@ $('.fliter3>ul a').click(function(){
 	var cid=$(this).attr("data-value");
 	var url=location.search.toString();
 	if(cid){ 
-		url=replaceParamVal(url,'cid',cid)  
-		url='/userlist/1'+url; 
+		url=replaceParamVal(url,'c',cid)  
+		url='/t/1'+url; 
 	}else{  
-		url='/userlist/1'+removeParameter(url,'cid');
+		url='/t/1'+removeParameter(url,'c');
 	} 
 	location = url
 }) 
@@ -388,7 +388,7 @@ $('.search a').click(function(){
 	console.log(keyword);
 	var url=location.search.toString();
 	url=replaceParamVal(url,'keyword',keyword)  
-	url='/userlist/1'+'?keyword='+keyword;
+	url='/t/1'+'?keyword='+keyword;
 	location = url 
 }) 
 

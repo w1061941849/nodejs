@@ -2,13 +2,17 @@ var httpUtil=require('../utils/http.js')
 var async= require('async');
 var appConfig=require('../appConfig.js');
 var URL = require('url');
-exports.showHtml = function (req, res, next) {    
-     var url=req.originalUrl; 
+exports.showHtml = function (req, res, next) {     
 	var resultData={};  
-	var cid=req.query.cid ? req.query.cid : ""
-	var ocid=req.query.ocid ? req.query.ocid : ""
+	var cid=req.query.c ? req.query.c : ""
+	var keyword=req.query.keyword ? req.query.keyword : ""  
+	var tag=req.query.t ? req.query.t : "";
+	var authentype=req.query.a ? req.query.a : "";
+	var url="/userlist/"+req.params.page+"?"+(cid ? "cid="+cid+"&" : "")+(keyword ? "keyword="+keyword+"&" : "")
+	+(tag ? "tag="+tag+"&" : "")+(authentype ? "authentype="+authentype+"&" : "")
 	var parentCategory=""
 	var hasSonCategory=false
+	console.log(url)
 	async.waterfall([
 	    function (done) {
 	    	var options={
@@ -82,8 +86,7 @@ exports.showHtml = function (req, res, next) {
 	    }  
 	],  
     function(err, results) { 
-    	for(var i in resultData['categorylist']['data']){
-    		
+    	for(var i in resultData['categorylist']['data']){ 
     		if(resultData['categorylist']['data'][i]['parentid']==cid){
     			hasSonCategory=true;
     			break;

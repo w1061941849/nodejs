@@ -132,7 +132,7 @@
 	</div>
 	<div class="rightAside">
 		<div class="box" style="min-height:300px;" >
-			<a href="/userDetail?userid=<%=results['owner']['id'] %>" style="position:relative">
+			<a href="/u?i=<%=results['owner']['id'] %>" style="position:relative">
 				<img src="<%= results['owner']['imageLarge']%>">
 				 
 			</a>
@@ -150,7 +150,7 @@
 			</div>  
 			<div class="worksList cst-scrollbar">
 				<% for(var i in results['works']['data']){%>
-					<a href="/workDetail?workid=<%= results['works']['data'][i]['workid']%>" data_num="<%= results['works']['data'][i]['workid']%>" class="worksList_"> 
+					<a href="/w?i=<%= results['works']['data'][i]['workid']%>" data_num="<%= results['works']['data'][i]['workid']%>" class="worksList_"> 
                         <img src="<%= results['works']['data'][i]['image']%>" >   
                     </a>   
 				<%}%>   

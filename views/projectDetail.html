@@ -96,10 +96,10 @@
 		<a class="userName"  href="/userDetail?userid=<%= results['owner']['id']%>"><%= decodeURI(results['owner']['nickname'])%></a>
 		</br></br>
 		<div class="summary">
-			<span>金额：<%= results['project']['bonus']%>  元</span>
-			<span>资质要求：<%= results['project']['bidderQualifiRequire'] ? results['project']['bidderQualifiRequire'] : "不限" %></span>
-			<span>地域要求：<%= results['project']['bidderLocationRequire']  ? results['project']['bidderLocationRequire'] : "不限"%></span>
-			<span>周期：<%= results['project']['timespan']%></span>
+			<i class="icon-money" style="color:#fca75b"></i> <span>金额：<%= results['project']['bonus']%>  元</span>
+			<i class="icon-user" style="color:#f15e4a;"></i> <span>资质要求：<%= results['project']['bidderQualifiRequire'] ? results['project']['bidderQualifiRequire'] : "不限" %></span>
+			<i class="icon-map-marker" style="color:#fca75b"></i> <span>地域要求：<%= results['project']['bidderLocationRequire']  ? results['project']['bidderLocationRequire'] : "不限"%></span>
+			<i class="icon-time" style="color:#46b8da "></i> <span>周期：<%= results['project']['timespan']%></span>
 		</div>
 		</br></br>
 		<h3 style="font-weight:400;font-size:24px;">项目详情</h3></br>

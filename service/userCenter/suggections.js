@@ -7,11 +7,12 @@ exports.showHtml = function (req, res, next) {
 	if(!req.session.user){
 		return res.redirect('/login');  
 	}
-	var resultData={};     
+	var resultData={};  
+	var projectid=req.query.i   
 	async.waterfall([
 	    function (done) {
 	    	var options={
-		        "path":'/'+req.query.projectid+"/projectnotes"
+		        "path":'/'+projectid+"/projectnotes"
 		    }   
 		    console.log(options)
 		    httpUtil.get(options,function(result,err){  
@@ -32,7 +33,7 @@ exports.showHtml = function (req, res, next) {
 	    },
 	    function (onearg,done) {
 	    	var options={
-		        "path":'/project/'+req.query.projectid
+		        "path":'/project/'+projectid
 		    }    
 		    httpUtil.get(options,function(result,err){  
 		        if(err){

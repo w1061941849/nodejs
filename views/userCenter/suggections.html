@@ -247,7 +247,7 @@ var _projectid="";
 if (url.indexOf("?") != -1) {
     var str = url.substr(1);
     strs = str.split("&"); 
-    _projectid=strs[0].split("projectid=")[1]; 
+    _projectid=strs[0].split("i=")[1]; 
 } 
  
 //提出意见
@@ -368,7 +368,7 @@ function messageToggle(event){
 		
 } 
 function toVersions(){  
-	window.location.href='/versions?projectid='+_projectid; 
+	window.location.href='/versions?i='+_projectid; 
 }
 function dateType(date){
 	var date=new Date(date);

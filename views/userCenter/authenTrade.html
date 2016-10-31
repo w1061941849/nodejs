@@ -234,7 +234,7 @@ $('.stepThree .btn').click(function(){
 		'id':authen_bank['data'][0]['id'],
 		'code':$('input[name="checkMoney"]').val()
 	}
-	var reg=new RegExp("^[0-9]*$");
+	var reg=/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/;
 	if(!reg.test(params['code'])){
 		alert('请填写数字');
 	}else if(params['code']==""){

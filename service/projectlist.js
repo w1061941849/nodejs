@@ -4,11 +4,16 @@ var appConfig=require('../appConfig.js');
 var appConfig=require('../appConfig.js');
 var URL = require('url');
 exports.showHtml = function (req, res, next) {    
-    var url=req.originalUrl;
-    console.log(url)
+    
 	var resultData={}; 
-	var cid=req.query.cid ? req.query.cid : ""
-	var ocid=req.query.ocid ? req.query.ocid : "" 
+	var cid=req.query.c ? req.query.c : "" 
+	var keyword=req.query.keyword ? req.query.keyword : "" 
+	var status=req.query.s ? req.query.s : "" 
+	var orderby=req.query.o ? req.query.o : "" 
+	var desc=req.query.d ? req.query.d : "" 
+	var url="/projectlist/"+req.params.page+"?"+(cid ? "cid="+cid+"&" : "") +  (keyword ? "keyword="+keyword+"&" : "")+ (status ? "status="+status+"&" : "")
+	+ (orderby ? "orderby="+orderby+"&" : "")+ (desc ? "desc="+desc+"&" : "");
+	console.log(url)
 	var parentCategory=""
 	var hasSonCategory=false
 

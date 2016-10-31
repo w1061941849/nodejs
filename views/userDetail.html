@@ -78,16 +78,19 @@
 	margin-right: 10px;
 }
 .projectlist>a{
-	display:block;
-	width:600px;
-	float: left;
-	padding:20px 0px;
-	color:#999999;
-
+	display: block;
+    width: 560px;
+    float: left;
+    padding: 20px 20px;
+    color: #666; 
 }
-.projectlist>a>i{
+.projectlist>a:hover,.projectlist>a:hover span{
+	color:#e8594b;
+}
+.projectlist>a>span{
 	display: inline-block;
-	padding:0px 30px;
+	padding:0px 10px; 
+	color:#666;
 }
 .recommend { 
 	width: 1200px;   
@@ -193,7 +196,7 @@
 	<div class="works"> 
 		<%for(var i in results['works']['data']){%>
 			<div class="box"> 
-				<a  href="/workDetail?workid=<%=  results['works']['data'][i]['workid']%>" style=" display:block;width:100%;height:100%;position:relative;overflow:hidden">
+				<a  href="/w?i=<%=  results['works']['data'][i]['workid']%>" style=" display:block;width:100%;height:100%;position:relative;overflow:hidden">
 					<img src="<%= results['works']['data'][i]['image']%>">
 					<p><%= results['works']['data'][i]['title']%></p> 
 				</a>
@@ -207,9 +210,9 @@
 	<div class="projectlist">    
 		<%for( var i in results['participateProjects']['data']){%>  
 			<% if(i%2 == 0){%>
-				<a href="/projectDetail?projectid=<%= results['participateProjects']['data'][i]['project']['id']%>" class="text-right"><%= results['participateProjects']['data'][i]['project']['name']%> <i class=" icon-circle"></i></a> 
+				<a href="/p?i=<%= results['participateProjects']['data'][i]['project']['id']%>" class="text-right"><%= results['participateProjects']['data'][i]['project']['name']%> <span  >●</span></a> 
 			<%}else{%>
-				<a  href="/projectDetail?projectid=<%= results['participateProjects']['data'][i]['project']['id']%>" class="text-left"><i class=" icon-circle"></i><%= results['participateProjects']['data'][i]['project']['name']%>  </a>
+				<a  href="/p?i=<%= results['participateProjects']['data'][i]['project']['id']%>" class="text-left"><span>●</span><%= results['participateProjects']['data'][i]['project']['name']%>  </a>
 			<%}%> 
 		<%}%>
 		<div class="clear"></div>
@@ -221,9 +224,9 @@
 	<ul class="projectlist" >  
 		<%for( var i in results['publishedProjects']['data']){%>  
 			<% if(i%2 == 0){%>
-				<a href="/projectDetail?projectid=<%= results['publishedProjects']['data'][i]['id']%>" class="text-right"><%= results['publishedProjects']['data'][i]['name']%> <i class=" icon-circle"></i></a> 
+				<a href="/p?i=<%= results['publishedProjects']['data'][i]['id']%>" class="text-right"><%= results['publishedProjects']['data'][i]['name']%> <span  >●</span></a> 
 			<%}else{%>
-				<a  href="/projectDetail?projectid=<%= results['publishedProjects']['data'][i]['id']%>" class="text-left"><i class=" icon-circle"></i><%= results['publishedProjects']['data'][i]['name']%>  </a>
+				<a  href="/p?i=<%= results['publishedProjects']['data'][i]['id']%>" class="text-left"><span  >●</span><%= results['publishedProjects']['data'][i]['name']%>  </a>
 			<%}%> 
 		<%}%>
 		<div class="clear"></div> 

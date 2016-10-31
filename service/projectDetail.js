@@ -3,7 +3,8 @@ var async= require('async');
 var appConfig=require('../appConfig.js');
 var URL = require('url');
 exports.showHtml = function (req, res, next) {     
-	var projectid = URL.parse(req.url, true).query.projectid; 
+	var projectid = URL.parse(req.url, true).query.i; 
+	console.log(projectid)
 	var resultData={};
 	async.waterfall([
 	    function (done) {

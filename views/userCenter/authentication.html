@@ -197,6 +197,7 @@ $('.authenicationInfo_person .btn').click(function(){
 				if(data['authenticationType'] & 4){ 
 					deleteTrade();
 				}
+				location=location 
 			},
 			error: function(){
 				alert('fail');
@@ -225,6 +226,7 @@ $('.authenicationInfo_company .btn').click(function(){
 				if(data['authenticationType'] & 4){ 
 					deleteTrade();
 				}
+				console.log(0)
 				location=location 
 			},
 			error: function(){
